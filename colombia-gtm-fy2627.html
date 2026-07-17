@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🇨🇴 Colombia GTM FY26/27 — Hudl</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3350;
+    --accent: #f5d020;
+    --accent2: #e63946;
+    --green: #2ecc71;
+    --red: #e74c3c;
+    --orange: #f39c12;
+    --blue: #3498db;
+    --purple: #9b59b6;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --font: 'Inter', 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.6; }
+  a { color: var(--accent); text-decoration: none; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(15,17,23,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; }
+  .nav-logo { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
+  .nav-logo span { color: var(--accent); }
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab { padding: 6px 14px; border-radius: 6px; cursor: pointer; color: var(--muted); font-size: 13px; transition: all .2s; border: none; background: none; }
+  .nav-tab:hover { color: var(--text); background: var(--surface2); }
+  .nav-tab.active { background: var(--accent); color: #000; font-weight: 600; }
+  .nav-meta { font-size: 12px; color: var(--muted); }
+
+  /* LAYOUT */
+  .page { display: none; padding: 24px; max-width: 1400px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* HERO KPI */
+  .hero { background: linear-gradient(135deg, #1a1d27 0%, #22263a 100%); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px; }
+  .hero-title { font-size: 28px; font-weight: 800; }
+  .hero-subtitle { color: var(--muted); margin-top: 4px; font-size: 14px; }
+  .hero-flag { font-size: 48px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-value { font-size: 28px; font-weight: 700; }
+  .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .kpi-card.accent { border-color: var(--accent); }
+  .kpi-card.accent .kpi-value { color: var(--accent); }
+  .kpi-card.danger .kpi-value { color: var(--red); }
+  .kpi-card.green .kpi-value { color: var(--green); }
+
+  /* PROGRESS BAR */
+  .progress-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .progress-title { font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .progress-track { position: relative; height: 32px; background: var(--surface2); border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
+  .progress-fill { height: 100%; border-radius: 8px; transition: width .8s ease; display: flex; align-items: center; padding-left: 12px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .progress-segments { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+  .prog-seg { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .prog-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .scenario-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .scenario-card { border-radius: 12px; padding: 20px; border: 1px solid; }
+  .scenario-card.best { background: rgba(46,204,113,0.08); border-color: rgba(46,204,113,0.3); }
+  .scenario-card.commit { background: rgba(245,208,32,0.08); border-color: rgba(245,208,32,0.4); }
+  .scenario-card.worst { background: rgba(231,76,60,0.08); border-color: rgba(231,76,60,0.3); }
+  .scenario-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .scenario-card.best .scenario-label { color: var(--green); }
+  .scenario-card.commit .scenario-label { color: var(--accent); }
+  .scenario-card.worst .scenario-label { color: var(--red); }
+  .scenario-amount { font-size: 32px; font-weight: 800; }
+  .scenario-card.best .scenario-amount { color: var(--green); }
+  .scenario-card.commit .scenario-amount { color: var(--accent); }
+  .scenario-card.worst .scenario-amount { color: var(--red); }
+  .scenario-items { margin-top: 12px; font-size: 12px; color: var(--muted); line-height: 2; }
+  .scenario-items span { display: block; }
+
+  /* SECTIONS */
+  .section-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .badge { padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-urgent { background: rgba(231,76,60,0.2); color: var(--red); border: 1px solid rgba(231,76,60,0.4); }
+  .badge-green { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+  .badge-yellow { background: rgba(245,208,32,0.15); color: var(--accent); border: 1px solid rgba(245,208,32,0.3); }
+  .badge-blue { background: rgba(52,152,219,0.15); color: var(--blue); border: 1px solid rgba(52,152,219,0.3); }
+  .badge-purple { background: rgba(155,89,182,0.15); color: var(--purple); border: 1px solid rgba(155,89,182,0.3); }
+
+  /* PIPELINE TABLE */
+  .pipeline-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-btn { padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--muted); font-size: 12px; cursor: pointer; transition: all .2s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--surface2); color: var(--text); border-color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 10px 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); border-bottom: 1px solid var(--border); }
+  td { padding: 12px 14px; border-bottom: 1px solid rgba(46,51,80,0.5); font-size: 13px; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .prob-bar { height: 4px; border-radius: 2px; margin-top: 4px; background: var(--surface2); }
+  .prob-fill { height: 100%; border-radius: 2px; }
+  .stage-pill { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; }
+  .stage-propuesta { background: rgba(245,208,32,0.2); color: var(--accent); }
+  .stage-negociacion { background: rgba(46,204,113,0.2); color: var(--green); }
+  .stage-interes { background: rgba(52,152,219,0.15); color: var(--blue); }
+  .stage-estrategico { background: rgba(155,89,182,0.15); color: var(--purple); }
+  .stage-concepto { background: rgba(128,128,128,0.2); color: var(--muted); }
+  .narr-amount { font-weight: 700; }
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+
+  /* CLUB CARDS */
+  .clubs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .club-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color .2s; }
+  .club-card:hover { border-color: var(--accent); }
+  .club-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .club-name { font-size: 15px; font-weight: 700; }
+  .club-fullname { font-size: 12px; color: var(--muted); }
+  .club-arr { text-align: right; }
+  .club-arr-val { font-size: 16px; font-weight: 700; color: var(--blue); }
+  .club-arr-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+  .stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 14px; }
+  .stack-item { border-radius: 6px; padding: 6px 4px; text-align: center; font-size: 10px; font-weight: 600; }
+  .stack-have { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+  .stack-missing { background: rgba(231,76,60,0.1); color: rgba(231,76,60,0.7); border: 1px dashed rgba(231,76,60,0.3); }
+  .stack-partial { background: rgba(243,156,18,0.15); color: var(--orange); border: 1px solid rgba(243,156,18,0.3); }
+  .stack-pipeline { background: rgba(245,208,32,0.12); color: var(--accent); border: 1px dashed rgba(245,208,32,0.4); }
+  .club-narr-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border); }
+  .club-narr-label { font-size: 11px; color: var(--muted); }
+  .club-narr-value { font-size: 14px; font-weight: 700; color: var(--accent); }
+  .club-note { font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+  .priority-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  .p1 { background: var(--red); }
+  .p2 { background: var(--orange); }
+  .p3 { background: var(--accent); }
+  .p4 { background: var(--blue); }
+  .p5 { background: var(--purple); }
+
+  /* QUARTERLY */
+  .q-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .q-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .q-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; }
+  .q-range { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .q-target { font-size: 24px; font-weight: 700; color: var(--accent); margin-bottom: 12px; }
+  .q-deals { list-style: none; }
+  .q-deals li { font-size: 12px; padding: 4px 0; border-bottom: 1px solid rgba(46,51,80,0.4); display: flex; justify-content: space-between; gap: 8px; }
+  .q-deals li:last-child { border-bottom: none; }
+  .q-deal-name { color: var(--text); flex: 1; }
+  .q-deal-amt { color: var(--green); font-weight: 600; white-space: nowrap; }
+
+  /* DIMAYOR */
+  .dimayor-section { background: linear-gradient(135deg, rgba(155,89,182,0.1) 0%, rgba(52,152,219,0.08) 100%); border: 1px solid rgba(155,89,182,0.3); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .dimayor-title { font-size: 18px; font-weight: 700; color: var(--purple); margin-bottom: 8px; }
+  .dimayor-subtitle { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .dimayor-tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .dimayor-track { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 18px; border: 1px solid rgba(255,255,255,0.06); }
+  .dimayor-track-title { font-weight: 700; margin-bottom: 6px; }
+  .dimayor-track-value { font-size: 22px; font-weight: 800; color: var(--purple); margin-bottom: 8px; }
+  .dimayor-track-value.tbd { color: var(--muted); font-style: italic; }
+  .dimayor-items { font-size: 12px; color: var(--muted); line-height: 2; }
+  .dimayor-items span { display: block; }
+
+  /* FCF URGENCY BOX */
+  .urgency-box { background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.3); border-radius: 12px; padding: 20px; margin-bottom: 24px; display: flex; align-items: flex-start; gap: 16px; }
+  .urgency-icon { font-size: 28px; flex-shrink: 0; }
+  .urgency-title { font-size: 15px; font-weight: 700; color: var(--red); margin-bottom: 6px; }
+  .urgency-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .urgency-body strong { color: var(--text); }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .legend-box { width: 14px; height: 14px; border-radius: 3px; }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 32px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 40px; }
+
+  @media (max-width: 768px) {
+    .scenario-row, .q-grid, .dimayor-tracks { grid-template-columns: 1fr; }
+    nav { flex-wrap: wrap; gap: 8px; }
+    .nav-tabs { order: 3; width: 100%; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🇨🇴 <span>Hudl Colombia</span> GTM</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('overview')">Overview</button>
+    <button class="nav-tab" onclick="showPage('pipeline')">Pipeline</button>
+    <button class="nav-tab" onclick="showPage('clubs')">Clubes</button>
+    <button class="nav-tab" onclick="showPage('plan')">Plan Trimestral</button>
+    <button class="nav-tab" onclick="showPage('dimayor')">DIMAYOR / FCF</button>
+  </div>
+  <div class="nav-meta">FY26/27 · Gorka Jiménez</div>
+</nav>
+
+<!-- ══════════════════ OVERVIEW ══════════════════ -->
+<div id="page-overview" class="page active">
+
+  <div class="urgency-box">
+    <div class="urgency-icon">🚨</div>
+    <div>
+      <div class="urgency-title">ACCIÓN URGENTE — FCF Renovación · Cierre: 27 Jul 2026 (10 días)</div>
+      <div class="urgency-body">
+        Oportunidad <strong>006VY00000KagV5YAJ</strong> en Propuesta · <strong>$61,063</strong> total (upsell NARR: <strong>$4,614</strong> vs ARR actual $56,449).
+        La FCF es la cuenta ancla de Colombia — cualquier brecha en la renovación bloquea la relación y futuros upsells de Statsbomb, ADI y Wimu.
+        <strong>→ Prioridad máxima esta semana.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <div class="hero-title">Colombia GTM FY 26/27</div>
+      <div class="hero-subtitle">Plan de generación NARR · Meta: $700,000 en ingresos netos nuevos</div>
+    </div>
+    <div class="hero-flag">🇨🇴</div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">ARR Actual</div>
+      <div class="kpi-value">$252K</div>
+      <div class="kpi-sub">28 cuentas · 17 Jul 2026</div>
+    </div>
+    <div class="kpi-card accent">
+      <div class="kpi-label">Meta NARR FY26/27</div>
+      <div class="kpi-value">$700K</div>
+      <div class="kpi-sub">Solo ingresos netos nuevos</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Pipeline NARR Total</div>
+      <div class="kpi-value">$862K</div>
+      <div class="kpi-sub">Todos los tracks combinados</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">NARR Confirmado</div>
+      <div class="kpi-value">$39K</div>
+      <div class="kpi-sub">Propuesta + Negociación</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Cobertura Pipeline</div>
+      <div class="kpi-value">1.2×</div>
+      <div class="kpi-sub">vs meta $700K</div>
+    </div>
+    <div class="kpi-card danger">
+      <div class="kpi-label">Gap NARR</div>
+      <div class="kpi-value">$661K</div>
+      <div class="kpi-sub">Pendiente de cerrar</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS TO $700K -->
+  <div class="progress-section">
+    <div class="progress-title">🎯 Camino a $700K NARR</div>
+    <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">Pipeline esperado (probabilidad ponderada) vs meta</div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:5.6%; background: var(--green);">$39K confirmado</div>
+    </div>
+
+    <div style="position:relative; height:32px; background:var(--surface2); border-radius:8px; overflow:hidden; margin-bottom:12px;">
+      <div style="position:absolute; left:0; top:0; height:100%; width:5.6%; background: var(--green);"></div>
+      <div style="position:absolute; left:5.6%; top:0; height:100%; width:38.4%; background: var(--blue); display:flex; align-items:center; padding-left:8px; font-size:11px; font-weight:600; color:#fff;">$269K upsells Primera A</div>
+      <div style="position:absolute; left:44%; top:0; height:100%; width:35.7%; background: var(--purple); display:flex; align-items:center; padding-left:8px; font-size:11px; font-weight:600; color:#fff;">$250K DIMAYOR Wimu</div>
+      <div style="position:absolute; left:79.7%; top:0; height:100%; width:8.5%; background: var(--orange); display:flex; align-items:center; padding-left:4px; font-size:11px; font-weight:600; color:#fff;">$60K new</div>
+      <div style="position:absolute; right:4px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--muted);">$700K</div>
+    </div>
+
+    <div class="progress-segments">
+      <div class="prog-seg"><div class="prog-dot" style="background:var(--green)"></div> Confirmado (Propuesta/Nego): $39K</div>
+      <div class="prog-seg"><div class="prog-dot" style="background:var(--blue)"></div> Upsells Primera A: $269K</div>
+      <div class="prog-seg"><div class="prog-dot" style="background:var(--purple)"></div> DIMAYOR Wimu Colectivo: $250K</div>
+      <div class="prog-seg"><div class="prog-dot" style="background:var(--orange)"></div> FCF adds + DIMAYOR Focus: $100K</div>
+      <div class="prog-seg"><div class="prog-dot" style="background:var(--accent)"></div> Nuevos logos: $60K</div>
+    </div>
+    <div style="margin-top:12px; font-size:12px; color:var(--muted); padding:10px; background:rgba(155,89,182,0.08); border-radius:8px; border-left:3px solid var(--purple);">
+      ⚠️ <strong style="color:var(--text)">Dependencia crítica:</strong> El 36% del Commit ($250K) depende del acuerdo colectivo DIMAYOR Wimu para reemplazar Catapult. Sin ese deal, el techo de NARR individual-club es ~$450K.
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="section-title">📊 Escenarios NARR FY26/27</div>
+  <div class="scenario-row">
+    <div class="scenario-card best">
+      <div class="scenario-label">🏆 Best Case</div>
+      <div class="scenario-amount">$860K</div>
+      <div class="scenario-items">
+        <span>✓ Confirmed pipeline: $39K</span>
+        <span>✓ Todos los upsells Primera A: $269K</span>
+        <span>✓ DIMAYOR Wimu colectivo: $250K</span>
+        <span>✓ DIMAYOR Focus Outdoor: $130K</span>
+        <span>✓ FCF Statsbomb + ADI: $45K</span>
+        <span>✓ Nuevos logos (Tigres + 3): $80K</span>
+        <span>✓ Comité Olímpico + Min. Deporte: $47K</span>
+      </div>
+    </div>
+    <div class="scenario-card commit">
+      <div class="scenario-label">🎯 Commit — META</div>
+      <div class="scenario-amount">$700K</div>
+      <div class="scenario-items">
+        <span>✓ Confirmed pipeline: $39K</span>
+        <span>✓ Top 5 upsells (Nac, Mil, DIM, Amé, Tol): $165K</span>
+        <span>✓ DIMAYOR Wimu colectivo: $250K</span>
+        <span>✓ FCF Statsbomb + ADI: $40K</span>
+        <span>✓ Focus Outdoor parcial (5 estadios): $80K</span>
+        <span>✓ Nuevos logos (Tigres + 2): $61K</span>
+        <span>~ Junior + Aguilas + Equidad: $65K</span>
+      </div>
+    </div>
+    <div class="scenario-card worst">
+      <div class="scenario-label">⚠️ Worst Case</div>
+      <div class="scenario-amount">$280K</div>
+      <div class="scenario-items">
+        <span>✓ Confirmed pipeline: $39K</span>
+        <span>~ Solo 3 upsells Primera A: $85K</span>
+        <span>✗ Sin deal DIMAYOR Wimu</span>
+        <span>✗ Sin Focus Outdoor DIMAYOR</span>
+        <span>~ FCF upsell mínimo: $10K</span>
+        <span>~ Nuevos logos (solo Tigres): $31K</span>
+        <span>✗ Sin Comité Olímpico / Ministerio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIPELINE SUMMARY TABLE (compact) -->
+  <div class="section-title">📋 Pipeline Resumen por Track</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Track</th>
+        <th>NARR Potencial</th>
+        <th>NARR Confirmado</th>
+        <th>Prob. Avg.</th>
+        <th># Opps</th>
+        <th>Estado</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>🏛️ FCF / Federación</strong></td>
+          <td class="narr-amount">$80,000</td>
+          <td style="color:var(--green)">$4,614</td>
+          <td>45%</td>
+          <td>3</td>
+          <td><span class="badge badge-urgent">URGENTE</span></td>
+        </tr>
+        <tr>
+          <td><strong>🏆 Primera A — Upsells</strong></td>
+          <td class="narr-amount">$269,000</td>
+          <td style="color:var(--green)">$3,270</td>
+          <td>50%</td>
+          <td>8</td>
+          <td><span class="badge badge-yellow">En Proceso</span></td>
+        </tr>
+        <tr>
+          <td><strong>🏟️ DIMAYOR Estratégico</strong></td>
+          <td class="narr-amount">$350,000</td>
+          <td style="color:var(--muted)">$0</td>
+          <td>30%</td>
+          <td>2</td>
+          <td><span class="badge badge-purple">Estratégico</span></td>
+        </tr>
+        <tr>
+          <td><strong>🆕 Nuevos Logos / Otros</strong></td>
+          <td class="narr-amount">$163,000</td>
+          <td style="color:var(--green)">$30,684</td>
+          <td>35%</td>
+          <td>5</td>
+          <td><span class="badge badge-blue">Mixto</span></td>
+        </tr>
+        <tr style="background:rgba(245,208,32,0.04);">
+          <td><strong>TOTAL</strong></td>
+          <td class="narr-amount" style="color:var(--accent)"><strong>$862,000</strong></td>
+          <td style="color:var(--green)"><strong>$38,568</strong></td>
+          <td><strong>39%</strong></td>
+          <td><strong>18</strong></td>
+          <td><span class="badge badge-yellow">Cobertura 1.2×</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ══════════════════ PIPELINE ══════════════════ -->
+<div id="page-pipeline" class="page">
+
+  <div class="section-title">📋 Pipeline NARR Completo</div>
+
+  <div class="pipeline-filter">
+    <button class="filter-btn active" onclick="filterPipeline('all', this)">Todos</button>
+    <button class="filter-btn" onclick="filterPipeline('fcf', this)">🏛️ FCF</button>
+    <button class="filter-btn" onclick="filterPipeline('primera', this)">🏆 Primera A</button>
+    <button class="filter-btn" onclick="filterPipeline('dimayor', this)">🏟️ DIMAYOR</button>
+    <button class="filter-btn" onclick="filterPipeline('nuevos', this)">🆕 Nuevos</button>
+  </div>
+
+  <div class="table-wrap">
+    <table id="pipeline-table">
+      <thead><tr>
+        <th>Oportunidad</th>
+        <th>Track</th>
+        <th>Etapa</th>
+        <th>NARR</th>
+        <th>Prob.</th>
+        <th>Cierre Est.</th>
+        <th>Notas</th>
+      </tr></thead>
+      <tbody id="pipeline-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="kpi-row" style="margin-top:24px;">
+    <div class="kpi-card green">
+      <div class="kpi-label">Propuesta / Negociación</div>
+      <div class="kpi-value" style="font-size:22px">$38,568</div>
+      <div class="kpi-sub">3 oportunidades · cierre inmediato</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Interés / Por crear</div>
+      <div class="kpi-value" style="font-size:22px">$473,000</div>
+      <div class="kpi-sub">9 oportunidades · Q2-Q3</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Estratégico / Concepto</div>
+      <div class="kpi-value" style="font-size:22px; color:var(--purple)">$350,000</div>
+      <div class="kpi-sub">2 oportunidades DIMAYOR · Q3-Q4</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ CLUBES ══════════════════ -->
+<div id="page-clubs" class="page">
+
+  <div class="section-title">🏟️ Stack por Club — Metodología Completa vs Actual</div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-box" style="background:rgba(46,204,113,0.3); border:1px solid var(--green)"></div> Tienen</div>
+    <div class="legend-item"><div class="legend-box" style="background:rgba(243,156,18,0.3); border:1px solid var(--orange)"></div> Parcial / Versión básica</div>
+    <div class="legend-item"><div class="legend-box" style="background:rgba(245,208,32,0.2); border:1px dashed var(--accent)"></div> En Pipeline</div>
+    <div class="legend-item"><div class="legend-box" style="background:rgba(231,76,60,0.1); border:1px dashed var(--red)"></div> Falta · Oportunidad NARR</div>
+  </div>
+
+  <div style="font-size:12px; color:var(--muted); margin-bottom:20px; padding:10px; background:var(--surface); border-radius:8px; border-left:3px solid var(--purple);">
+    📌 <strong style="color:var(--text)">Stack completo ideal:</strong> Wyscout + Statsbomb 360 + Hudl + HSC Sportscode Elite + Focus (Flex o Outdoor) + ADI + Wimu | Opcionales: Broadcast Tracking, API, Hudl Replay
+    <br>⚠️ <strong style="color:var(--text)">Todos los clubes tienen Catapult</strong> vía acuerdo colectivo DIMAYOR → oportunidad de reemplazar con Wimu
+  </div>
+
+  <div class="clubs-grid" id="clubs-container"></div>
+</div>
+
+<!-- ══════════════════ PLAN TRIMESTRAL ══════════════════ -->
+<div id="page-plan" class="page">
+
+  <div class="section-title">📅 Plan Trimestral NARR — FY 26/27</div>
+
+  <div class="q-grid" id="q-container"></div>
+
+  <div class="section-title" style="margin-top:8px;">🗺️ Hoja de Ruta por Prioridad</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Prioridad</th>
+        <th>Club / Cuenta</th>
+        <th>Acción</th>
+        <th>Producto(s) Target</th>
+        <th>NARR Est.</th>
+        <th>Trimestre</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-urgent">🔴 P1</span></td>
+          <td><strong>FCF</strong></td>
+          <td>Cerrar renovación + confirmar upsell</td>
+          <td>Renewal + confirmación contrato</td>
+          <td style="color:var(--green)">$4,614</td>
+          <td>Q1 — AHORA</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-urgent">🔴 P1</span></td>
+          <td><strong>Tigres FC</strong></td>
+          <td>Cerrar Propuesta activa</td>
+          <td>Statsbomb IQ Soccer</td>
+          <td style="color:var(--green)">$30,684</td>
+          <td>Q1 — Ago 2026</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-urgent">🔴 P1</span></td>
+          <td><strong>DIM</strong></td>
+          <td>Cerrar amendment en negociación</td>
+          <td>Amendment / Upgrade</td>
+          <td style="color:var(--green)">$3,270</td>
+          <td>Q1 — Ago 2026</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">🟡 P2</span></td>
+          <td><strong>FCF</strong></td>
+          <td>Upsell post-renovación</td>
+          <td>Statsbomb + ADI (selección + youth)</td>
+          <td style="color:var(--accent)">$40,000</td>
+          <td>Q2 — Oct-Nov 2026</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">🟡 P2</span></td>
+          <td><strong>Atlético Nacional</strong></td>
+          <td>Primera demo + propuesta</td>
+          <td>Statsbomb 360 + HSC Elite</td>
+          <td style="color:var(--accent)">$38,000</td>
+          <td>Q2 — Nov-Dic 2026</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">🟡 P2</span></td>
+          <td><strong>Millonarios</strong></td>
+          <td>Demo Statsbomb (ya tienen HSC)</td>
+          <td>Statsbomb 360 + ADI</td>
+          <td style="color:var(--accent)">$32,000</td>
+          <td>Q2 — Nov-Dic 2026</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">🟡 P2</span></td>
+          <td><strong>DIMAYOR</strong></td>
+          <td>Iniciar negociación colectiva Wimu</td>
+          <td>Wimu (replace Catapult, ~20 clubes)</td>
+          <td style="color:var(--purple)">$250,000</td>
+          <td>Q2-Q3 — Ene-Mar 2027</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">🔵 P3</span></td>
+          <td><strong>DIM</strong></td>
+          <td>Upsell completo tras amendment</td>
+          <td>Statsbomb + ADI + Focus Flex</td>
+          <td style="color:var(--blue)">$28,000</td>
+          <td>Q3 — Feb-Mar 2027</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">🔵 P3</span></td>
+          <td><strong>América de Cali</strong></td>
+          <td>Upsell (ya tienen Focus Flex)</td>
+          <td>Statsbomb 360 + ADI</td>
+          <td style="color:var(--blue)">$28,000</td>
+          <td>Q3 — Feb-Mar 2027</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">🔵 P3</span></td>
+          <td><strong>Deportes Tolima</strong></td>
+          <td>Demo Statsbomb + paquete metodología</td>
+          <td>Statsbomb + ADI + Focus Flex</td>
+          <td style="color:var(--blue)">$28,000</td>
+          <td>Q3 — Mar-Abr 2027</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">🔵 P3</span></td>
+          <td><strong>Junior</strong></td>
+          <td>Completar stack (ADI ya tienen)</td>
+          <td>HSC Elite + Statsbomb 360</td>
+          <td style="color:var(--blue)">$32,000</td>
+          <td>Q3 — Mar-Abr 2027</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">🔵 P3</span></td>
+          <td><strong>DIMAYOR</strong></td>
+          <td>Kick-off Focus Outdoor estadios</td>
+          <td>Focus Outdoor (5-8 estadios piloto)</td>
+          <td style="color:var(--purple)">$80,000-130,000</td>
+          <td>Q3-Q4 — Abr-Jun 2027</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">🟣 P4</span></td>
+          <td><strong>Aguilas Doradas</strong></td>
+          <td>Upsell analytics</td>
+          <td>Statsbomb + Wimu</td>
+          <td style="color:var(--muted)">$22,000</td>
+          <td>Q4 — May-Jun 2027</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">🟣 P4</span></td>
+          <td><strong>La Equidad</strong></td>
+          <td>Upgrade Statsbomb IQ → 360 + stack</td>
+          <td>Statsbomb 360 + HSC + ADI</td>
+          <td style="color:var(--muted)">$28,000</td>
+          <td>Q4 — May-Jun 2027</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">🟣 P4</span></td>
+          <td><strong>Comité Olímpico / Ministerio Deporte</strong></td>
+          <td>Propuesta Wimu institucional</td>
+          <td>Wimu (rendimiento deportivo)</td>
+          <td style="color:var(--muted)">$20,000-50,000</td>
+          <td>Q3-Q4 2027</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════ DIMAYOR / FCF ══════════════════ -->
+<div id="page-dimayor" class="page">
+
+  <div class="section-title">🏛️ Track Estratégico: DIMAYOR + FCF</div>
+
+  <!-- FCF -->
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; margin-bottom:24px;">
+    <div style="font-size:17px; font-weight:700; color:var(--accent); margin-bottom:4px;">🏛️ Federación Colombiana de Fútbol (FCF)</div>
+    <div style="font-size:13px; color:var(--muted); margin-bottom:20px;">ARR actual: $56,449 · Cuenta ancla de Colombia · Gestiona Liga BetPlay + Selección Nacional + Youth</div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+      <div style="background:rgba(231,76,60,0.08); border:1px solid rgba(231,76,60,0.3); border-radius:10px; padding:16px;">
+        <div style="font-size:12px; color:var(--red); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">⚡ URGENTE: Renovación</div>
+        <div style="font-size:24px; font-weight:700;">$61,063</div>
+        <div style="font-size:12px; color:var(--muted); margin-top:4px;">Propuesta activa · Cierre 27 Jul 2026</div>
+        <div style="font-size:12px; color:var(--muted); margin-top:4px;">NARR del upsell: <strong style="color:var(--green)">$4,614</strong> (vs $56,449 ARR actual)</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:8px;">Opp ID: 006VY00000KagV5YAJ</div>
+      </div>
+      <div style="background:rgba(52,152,219,0.08); border:1px solid rgba(52,152,219,0.2); border-radius:10px; padding:16px;">
+        <div style="font-size:12px; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">📈 Upsell Post-Renovación</div>
+        <div style="font-size:24px; font-weight:700; color:var(--blue)">~$40K</div>
+        <div style="font-size:12px; color:var(--muted); margin-top:4px;">Statsbomb 360 + ADI · Q2 FY27</div>
+        <div style="font-size:11px; color:var(--muted); margin-top:8px; line-height:1.7;">
+          FCF como "showcase account" para clubs Primera A<br>
+          Habilita: análisis selección nacional, youth football, datos liga
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:14px;">
+      <div style="font-size:13px; font-weight:600; margin-bottom:8px;">Stack actual FCF vs ideal</div>
+      <div class="stack-grid">
+        <div class="stack-item stack-have">Wyscout ✓</div>
+        <div class="stack-item stack-have">HSC Elite ✓</div>
+        <div class="stack-item stack-have">Hudl ✓</div>
+        <div class="stack-item stack-have">Replay ✓</div>
+        <div class="stack-item stack-pipeline">Statsbomb ◐ Pipeline</div>
+        <div class="stack-item stack-pipeline">ADI ◐ Pipeline</div>
+        <div class="stack-item stack-missing">Focus Outdoor ✗</div>
+        <div class="stack-item stack-missing">Wimu ✗</div>
+      </div>
+    </div>
+
+    <div style="font-size:12px; color:var(--muted); margin-top:14px; padding:10px; background:rgba(245,208,32,0.06); border-radius:8px; border-left:3px solid var(--accent);">
+      ⚠️ <strong style="color:var(--text)">Win Sports:</strong> El acuerdo de derechos de vídeo (Colombia Primera A + B) es un intercambio de derechos — no genera ARR en efectivo. Actualmente la FCF accede a footage vía provisioning, no venta. Considerar conversión a acuerdo comercial en renovación 2027.
+    </div>
+  </div>
+
+  <!-- DIMAYOR -->
+  <div class="dimayor-section">
+    <div class="dimayor-title">🏟️ DIMAYOR — Liga BetPlay Estrategia Colectiva</div>
+    <div class="dimayor-subtitle">Dos proyectos con potencial de $350K+ NARR · Necesitan definición de valoración y negociación directa con DIMAYOR</div>
+
+    <div class="dimayor-tracks">
+      <div class="dimayor-track">
+        <div class="dimayor-track-title">💪 Proyecto 1: Wimu — Reemplaza Catapult</div>
+        <div class="dimayor-track-value">~$250,000</div>
+        <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">Acuerdo colectivo para ~20 clubes · Q2-Q3 FY27</div>
+        <div class="dimayor-items">
+          <span>📌 Todos los clubes tienen Catapult vía DIMAYOR</span>
+          <span>📌 Catapult = herramienta de carga GPS, no analítica avanzada</span>
+          <span>📌 Wimu = GPS + métricas de rendimiento + plataforma cloud</span>
+          <span>📌 Precio estimado: $12-15K/club/año × 18-20 clubes</span>
+          <span>📌 Negociar con DIMAYOR como acuerdo marco, no club a club</span>
+          <span>⚡ Argumento: comparación real Wimu vs Catapult en el campo</span>
+          <span>⚡ Involucrar al departamento médico + staff técnico de clubes ancla</span>
+        </div>
+      </div>
+      <div class="dimayor-track">
+        <div class="dimayor-track-title">📷 Proyecto 2: Focus Outdoor — Estadios</div>
+        <div class="dimayor-track-value tbd">$80K–$200K (TBD)</div>
+        <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">Focus Outdoor en estadios Liga BetPlay · Q3-Q4 FY27</div>
+        <div class="dimayor-items">
+          <span>📌 Contexto Win Sports: DIMAYOR ya usa cámaras externas</span>
+          <span>📌 FCF + DIMAYOR = posible co-inversión con Win Sports</span>
+          <span>📌 Eyeball compite: provee 34 cámaras + datos a 60 clubes FCF</span>
+          <span>📌 Diferenciador Hudl: calidad de feed + integración con Wyscout/SB</span>
+          <span>📌 Precio por estadio: ~$15-25K/año (instalación + servicio)</span>
+          <span>⚡ Piloto con 3-5 estadios Premier: Atanasio, Metropolitano, El Campín</span>
+          <span>⚡ ROI: análisis automático de broadcast + clips en Wyscout</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px; background:rgba(0,0,0,0.2); border-radius:10px; padding:16px;">
+      <div style="font-size:13px; font-weight:600; margin-bottom:12px; color:var(--purple);">📊 Tabla de Clubes DIMAYOR con Catapult → Oportunidad Wimu</div>
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; font-size:11px;">
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Atlético Nacional</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Millonarios FC</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">DIM</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">América de Cali</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Deportes Tolima</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Junior</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Deportivo Cali</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Aguilas Doradas</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">La Equidad</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Jaguares de Córdoba</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Peñarol de Armenia</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Llaneros FC</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Real Santander</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Fortaleza FC</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">Real Cartagena</div>
+        <div style="background:var(--surface2); padding:8px 10px; border-radius:6px;">+ ~5 más</div>
+      </div>
+      <div style="font-size:11px; color:var(--muted); margin-top:10px;">Total estimado: 18-22 clubes · Precio colectivo vs individual — a negociar con DIMAYOR</div>
+    </div>
+  </div>
+
+  <!-- Win Sports context -->
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px;">
+    <div style="font-size:15px; font-weight:700; margin-bottom:8px;">📺 Win Sports — Contexto y Estrategia</div>
+    <div style="font-size:13px; color:var(--muted); line-height:1.8;">
+      <strong style="color:var(--text)">Situación actual:</strong> Acuerdo de intercambio de derechos de vídeo (Colombia Primera A + B). Acceso vía provisioning, sin ARR en efectivo. Win Sports no genera NARR directo hoy.<br><br>
+      <strong style="color:var(--text)">Cuentas incluidas vía Win Sports sin ARR:</strong> Real Santander, Real Cartagena, Fortaleza FC, Orsomarso SC — acceden a Hudl vídeo por el acuerdo de broadcast.<br><br>
+      <strong style="color:var(--text)">Competidor: Eyeball</strong> — provee actualmente 34 cámaras + datos a 60 clubes FCF + workshops. Es el proveedor preferido de FCF para datos de partido actualmente.<br><br>
+      <strong style="color:var(--text)">Oportunidad estratégica:</strong> Convertir cuentas Win Sports a contratos de pago añadiendo Wyscout/Statsbomb/HSC sobre la base de vídeo ya usada. Tigres FC ($30,684) es el primer ejemplo de esta conversión. Target: 2-3 más en Q3-Q4 FY27.
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Hudl Colombia GTM FY26/27 · Datos: Salesforce (vía Dot AI) · Actualizado 17 Jul 2026 · Gorka Jiménez
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────
+const PIPELINE = [
+  { name:"FCF — Renovación Upsell", track:"fcf", stage:"Propuesta", narr:4614, prob:90, close:"27 Jul 2026", note:"OPP 006VY00000KagV5YAJ · URGENTE 10 días" },
+  { name:"DIM — Amendment / Upgrade", track:"primera", stage:"Negociación", narr:3270, prob:90, close:"Ago 2026", note:"En negociación activa" },
+  { name:"Tigres FC — Statsbomb IQ Soccer", track:"nuevos", stage:"Propuesta", narr:30684, prob:75, close:"15 Ago 2026", note:"Primer nuevo logo Q1" },
+  { name:"FCF — Statsbomb 360 + ADI", track:"fcf", stage:"Interés", narr:40000, prob:40, close:"Q2 FY27", note:"Post-renovación · Selección + Liga youth" },
+  { name:"Atlético Nacional — Statsbomb 360 + HSC Elite", track:"primera", stage:"Interés", narr:38000, prob:60, close:"Nov-Dic 2026", note:"Mayor stack gap Primera A" },
+  { name:"Millonarios FC — Statsbomb 360 + ADI", track:"primera", stage:"Interés", narr:32000, prob:55, close:"Nov-Dic 2026", note:"Ya tienen HSC · entrada natural" },
+  { name:"América de Cali — Statsbomb 360 + ADI", track:"primera", stage:"Interés", narr:28000, prob:50, close:"Q2 FY27", note:"Ya tienen Focus Flex + HSC" },
+  { name:"Deportes Tolima — Statsbomb + ADI + Focus Flex", track:"primera", stage:"Interés", narr:28000, prob:45, close:"Q2-Q3 FY27", note:"Stack similar a DIM" },
+  { name:"Junior — HSC Elite + Statsbomb 360", track:"primera", stage:"Interés", narr:32000, prob:45, close:"Q2-Q3 FY27", note:"Tienen ADI y Focus SW" },
+  { name:"Deportivo Cali — Stack completo", track:"primera", stage:"Por crear", narr:35000, prob:40, close:"Q3 FY27", note:"Solo tienen Wyscout" },
+  { name:"Aguilas Doradas — Statsbomb + Wimu", track:"primera", stage:"Por crear", narr:22000, prob:40, close:"Q3 FY27", note:"Tienen Wyscout + HSC" },
+  { name:"La Equidad — HSC + Statsbomb 360 + ADI", track:"primera", stage:"Por crear", narr:28000, prob:40, close:"Q3-Q4 FY27", note:"Upgrade Hudl IQ → Statsbomb 360" },
+  { name:"DIMAYOR — Wimu (reemplaza Catapult, ~20 clubes)", track:"dimayor", stage:"Estratégico", narr:250000, prob:35, close:"Q3-Q4 FY27", note:"Acuerdo colectivo marco · TBD precio" },
+  { name:"DIMAYOR — Focus Outdoor Estadios", track:"dimayor", stage:"Concepto", narr:130000, prob:25, close:"Q4 FY27", note:"Piloto 5-8 estadios Liga BetPlay + Win Sports" },
+  { name:"Comité Olímpico Colombiano — Wimu", track:"nuevos", stage:"Interés", narr:20000, prob:30, close:"Q3 FY27", note:"Rendimiento olímpico" },
+  { name:"Win Sports → Cuentas pago (Real Stder, R.Carta, Fortaleza)", track:"nuevos", stage:"Por crear", narr:45000, prob:25, close:"Q3-Q4 FY27", note:"Conversión de cuentas Win Sports a contratos Wyscout/SB" },
+  { name:"Ministerio del Deporte — Wimu institucional", track:"nuevos", stage:"Interés", narr:0, prob:20, close:"TBD", note:"Valor por definir con gobierno" },
+  { name:"FCF — Focus Outdoor / Wimu Selección", track:"fcf", stage:"Por crear", narr:35000, prob:30, close:"Q4 FY27", note:"Selección Nacional · largo plazo" },
+];
+
+const CLUBS = [
+  {
+    name:"FCF", full:"Federación Colombiana de Fútbol",
+    arr:56449, priority:1,
+    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"pipeline", adi:"pipeline", focus:"missing", wimu:"missing" },
+    potential:80000,
+    note:"Cuenta ancla Colombia. Renovación urgente 27 Jul. Upsell Statsbomb + ADI como siguiente paso estratégico."
+  },
+  {
+    name:"Atlético Nacional", full:"Atlético Nacional S.A.",
+    arr:24644, priority:2,
+    stack:{ wyscout:"have", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:75000,
+    note:"Mayor stack gap de la Primera A. Solo tienen Wyscout + Hudl. Empezar con Statsbomb + HSC — high-impact upsell."
+  },
+  {
+    name:"Millonarios FC", full:"Millonarios Fútbol Club S.A.",
+    arr:20697, priority:3,
+    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:60000,
+    note:"Tienen HSC. Entrada natural: Statsbomb 360 + ADI. Luego Focus Flex + Wimu en Q3."
+  },
+  {
+    name:"DIM", full:"Deportivo Independiente Medellín",
+    arr:20278, priority:3,
+    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"missing", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:55000,
+    note:"Amendment $3,270 en Negociación (cierre inminente). Próximo: Statsbomb + ADI + Focus Flex."
+  },
+  {
+    name:"América de Cali", full:"América de Cali S.A.",
+    arr:14646, priority:4,
+    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"partial", wimu:"missing" },
+    potential:43000,
+    note:"Ya tienen Focus Flex + HSC. Upsell lógico: Statsbomb 360 + ADI. Considerar upgrade Focus Outdoor."
+  },
+  {
+    name:"Deportes Tolima", full:"Deportes Tolima S.A.",
+    arr:12001, priority:4,
+    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:51000,
+    note:"Stack similar a DIM. Vender Statsbomb + ADI + Focus Flex como paquete metodológico completo."
+  },
+  {
+    name:"Junior", full:"Junior de Barranquilla S.A.",
+    arr:14000, priority:4,
+    stack:{ wyscout:"have", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"missing", adi:"have", focus:"partial", wimu:"missing" },
+    potential:47000,
+    note:"Tienen ADI + Focus SW. Falta HSC Elite + Statsbomb 360 + Wimu para completar metodología."
+  },
+  {
+    name:"Deportivo Cali", full:"Deportivo Cali S.A.",
+    arr:12082, priority:5,
+    stack:{ wyscout:"have", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:50000,
+    note:"Stack básico — solo Wyscout + Hudl. Gran oportunidad de upsell completo en Q3."
+  },
+  {
+    name:"Aguilas Doradas", full:"Rionegro Aguilas / Aguilas Doradas",
+    arr:7002, priority:5,
+    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:34000,
+    note:"Tienen Wyscout + HSC + Replay. Priorizar Statsbomb + Wimu como diferenciadores competitivos."
+  },
+  {
+    name:"La Equidad", full:"Internacional de Bogotá / La Equidad",
+    arr:9246, priority:5,
+    stack:{ wyscout:"partial", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"partial", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:40000,
+    note:"Tienen Wyscout 5 países + Hudl IQ básico. Upgrade a Statsbomb 360 completo + HSC + ADI + Focus."
+  },
+];
+
+const QUARTERS = [
+  {
+    label:"Q1", period:"Ago–Oct 2026", target:90000,
+    color:"var(--red)",
+    deals:[
+      { name:"FCF Renovación upsell", amt:4614 },
+      { name:"Tigres FC — Statsbomb", amt:30684 },
+      { name:"DIM Amendment", amt:3270 },
+      { name:"FCF — Statsbomb + ADI (kick-off)", amt:15000 },
+      { name:"Atlético Nacional — demo + propuesta", amt:0 },
+      { name:"Millonarios — demo Statsbomb", amt:0 },
+    ],
+    note:"Cerrar todo lo que hay en pipeline ahora. Iniciar demos con Nacional y Millonarios."
+  },
+  {
+    label:"Q2", period:"Nov 2026–Ene 2027", target:200000,
+    color:"var(--orange)",
+    deals:[
+      { name:"FCF — Statsbomb + ADI cierre", amt:25000 },
+      { name:"Atlético Nacional — Statsbomb + HSC", amt:38000 },
+      { name:"Millonarios — Statsbomb + ADI", amt:32000 },
+      { name:"DIM — Statsbomb + ADI", amt:28000 },
+      { name:"DIMAYOR Wimu — kick-off negociación", amt:0 },
+      { name:"Comité Olímpico — propuesta Wimu", amt:0 },
+    ],
+    note:"Cerrar top 3 upsells Primera A. Iniciar negociación colectiva DIMAYOR Wimu."
+  },
+  {
+    label:"Q3", period:"Feb–Abr 2027", target:250000,
+    color:"var(--accent)",
+    deals:[
+      { name:"DIMAYOR Wimu colectivo (cierre)", amt:250000 },
+      { name:"América de Cali — Statsbomb + ADI", amt:28000 },
+      { name:"Tolima — Statsbomb + ADI + Focus", amt:28000 },
+      { name:"Junior — HSC + Statsbomb", amt:32000 },
+      { name:"Comité Olímpico Colombiano — Wimu", amt:20000 },
+      { name:"Win Sports clubs → contratos pago", amt:25000 },
+    ],
+    note:"El deal DIMAYOR Wimu es el pivot del Q3. Sin él, este trimestre no llega a target."
+  },
+  {
+    label:"Q4", period:"May–Jul 2027", target:160000,
+    color:"var(--green)",
+    deals:[
+      { name:"DIMAYOR Focus Outdoor (piloto)", amt:80000 },
+      { name:"Aguilas Doradas — Statsbomb + Wimu", amt:22000 },
+      { name:"La Equidad — stack upgrade", amt:28000 },
+      { name:"Deportivo Cali — stack completo", amt:35000 },
+      { name:"Nuevos logos (1-2 más)", amt:20000 },
+    ],
+    note:"Consolidar upsells tardíos y cerrar DIMAYOR Focus Outdoor piloto en estadios."
+  }
+];
+
+// ─── RENDER ─────────────────────────────────────────────
+
+function fmt(n) {
+  if (!n) return "TBD";
+  return "$" + n.toLocaleString("en-US");
+}
+
+function probColor(p) {
+  if (p >= 75) return "var(--green)";
+  if (p >= 50) return "var(--accent)";
+  if (p >= 30) return "var(--orange)";
+  return "var(--muted)";
+}
+
+function trackBadge(t) {
+  const map = {
+    fcf: '<span class="badge badge-yellow">🏛️ FCF</span>',
+    primera: '<span class="badge badge-blue">🏆 Primera A</span>',
+    dimayor: '<span class="badge badge-purple">🏟️ DIMAYOR</span>',
+    nuevos: '<span class="badge badge-green">🆕 Nuevo</span>',
+  };
+  return map[t] || t;
+}
+
+function stagePill(s) {
+  const cls = {
+    "Propuesta":"stage-propuesta","Negociación":"stage-negociacion",
+    "Interés":"stage-interes","Estratégico":"stage-estrategico","Concepto":"stage-concepto","Por crear":"stage-concepto"
+  };
+  return `<span class="stage-pill ${cls[s]||'stage-concepto'}">${s}</span>`;
+}
+
+function stackLabel(key) {
+  const m = { wyscout:"Wyscout", hsc:"HSC Elite", hudl:"Hudl", replay:"Replay", statsbomb:"Statsbomb", adi:"ADI", focus:"Focus", wimu:"Wimu" };
+  return m[key]||key;
+}
+
+function stackClass(v) {
+  if (v==="have") return "stack-have";
+  if (v==="partial") return "stack-partial";
+  if (v==="pipeline") return "stack-pipeline";
+  return "stack-missing";
+}
+
+function stackSymbol(v) {
+  if (v==="have") return " ✓";
+  if (v==="partial") return " ~";
+  if (v==="pipeline") return " ◐";
+  return " ✗";
+}
+
+function priorityClass(p) {
+  return ["","p1","p2","p3","p4","p5"][p]||"p5";
+}
+
+// Render pipeline
+function renderPipeline(filter) {
+  const tbody = document.getElementById("pipeline-tbody");
+  const rows = PIPELINE.filter(p => filter==="all" || p.track===filter);
+  tbody.innerHTML = rows.map(p => `
+    <tr data-track="${p.track}">
+      <td><strong>${p.name}</strong></td>
+      <td>${trackBadge(p.track)}</td>
+      <td>${stagePill(p.stage)}</td>
+      <td class="narr-amount">${p.narr ? fmt(p.narr) : '<span style="color:var(--muted)">TBD</span>'}</td>
+      <td>
+        <span style="color:${probColor(p.prob)}">${p.prob}%</span>
+        <div class="prob-bar"><div class="prob-fill" style="width:${p.prob}%; background:${probColor(p.prob)}"></div></div>
+      </td>
+      <td style="color:var(--muted); font-size:12px">${p.close}</td>
+      <td style="color:var(--muted); font-size:11px; max-width:200px">${p.note||""}</td>
+    </tr>
+  `).join("");
+}
+
+function filterPipeline(track, btn) {
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderPipeline(track);
+}
+
+// Render clubs
+function renderClubs() {
+  const container = document.getElementById("clubs-container");
+  container.innerHTML = CLUBS.map(c => {
+    const stackHtml = Object.entries(c.stack).map(([k,v]) =>
+      `<div class="stack-item ${stackClass(v)}">${stackLabel(k)}${stackSymbol(v)}</div>`
+    ).join("");
+    return `
+    <div class="club-card">
+      <div class="club-header">
+        <div>
+          <div class="club-name"><span class="priority-dot ${priorityClass(c.priority)}"></span>${c.name}</div>
+          <div class="club-fullname">${c.full}</div>
+        </div>
+        <div class="club-arr">
+          <div class="club-arr-val">${fmt(c.arr)}</div>
+          <div class="club-arr-label">ARR Actual</div>
+        </div>
+      </div>
+      <div class="stack-grid">${stackHtml}</div>
+      <div class="club-note">${c.note}</div>
+      <div class="club-narr-row">
+        <div class="club-narr-label">Potencial NARR total</div>
+        <div class="club-narr-value">${fmt(c.potential)}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+// Render quarters
+function renderQuarters() {
+  const container = document.getElementById("q-container");
+  container.innerHTML = QUARTERS.map(q => {
+    const dealsHtml = q.deals.map(d =>
+      `<li><span class="q-deal-name">${d.name}</span><span class="q-deal-amt">${d.amt ? fmt(d.amt) : "—"}</span></li>`
+    ).join("");
+    return `
+    <div class="q-card">
+      <div class="q-label">${q.label}</div>
+      <div class="q-range">${q.period}</div>
+      <div class="q-target" style="color:${q.color}">${fmt(q.target)}</div>
+      <ul class="q-deals">${dealsHtml}</ul>
+      <div style="margin-top:12px; font-size:11px; color:var(--muted); padding:8px; background:rgba(0,0,0,0.2); border-radius:6px; line-height:1.5;">${q.note}</div>
+    </div>`;
+  }).join("");
+}
+
+// Page navigation
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("page-"+id).classList.add("active");
+  document.querySelectorAll(".nav-tab").forEach(t=>{
+    if(t.getAttribute("onclick").includes("'"+id+"'")) t.classList.add("active");
+  });
+}
+
+// Init
+renderPipeline("all");
+renderClubs();
+renderQuarters();
+</script>
+</body>
+</html>
