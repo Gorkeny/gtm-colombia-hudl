@@ -123,6 +123,7 @@
   .stack-missing { background: rgba(231,76,60,0.1); color: rgba(231,76,60,0.7); border: 1px dashed rgba(231,76,60,0.3); }
   .stack-partial { background: rgba(243,156,18,0.15); color: var(--orange); border: 1px solid rgba(243,156,18,0.3); }
   .stack-pipeline { background: rgba(245,208,32,0.12); color: var(--accent); border: 1px dashed rgba(245,208,32,0.4); }
+  .stack-dimayor { background: rgba(155,89,182,0.12); color: var(--purple); border: 1px solid rgba(155,89,182,0.35); }
   .club-narr-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border); }
   .club-narr-label { font-size: 11px; color: var(--muted); }
   .club-narr-value { font-size: 14px; font-weight: 700; color: var(--accent); }
@@ -788,13 +789,17 @@ const CLUBS = [
 
   // ── EX-CLIENTES PRIMERA A (máxima prioridad de reactivación) ──
   { key:"santafe", status:"excliente", name:"Independiente Santa Fe", full:"Independiente Santa Fe S.A.", arr:0, league:"Primera A",
-    potential:30000, note:"Uno de los clubes más grandes de Colombia — sin ningún producto Hudl activo. Alta prioridad de re-win. Entrada: Wyscout + Hudl + HSC." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:21000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell directo: HSC Elite (~$11K) + ADI (~$7K) + Hudl (~$3K). Uno de los 2 grandes de Bogotá — alta prioridad." },
   { key:"bucaramanga", status:"excliente", name:"Atl. Bucaramanga", full:"Atlético Bucaramanga S.A.", arr:0, league:"Primera A",
-    potential:22000, note:"Club de Primera A activo. Ex-cliente sin productos activos. Paquete entrada: Wyscout + Hudl + HSC." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:16000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$10K) + ADI (~$4K) + Hudl (~$2K). Club activo de Primera A, Santander." },
   { key:"pereira", status:"excliente", name:"Deportivo Pereira", full:"Deportivo Pereira S.A.", arr:0, league:"Primera A",
-    potential:20000, note:"Club de Primera A activo. Ex-cliente — buena oportunidad de reactivación con paquete básico Wyscout + Hudl." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:14000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$9K) + ADI (~$3K) + Hudl (~$2K). Club Eje Cafetero, Primera A." },
   { key:"pasto", status:"excliente", name:"Deportivo Pasto", full:"Deportivo Pasto", arr:0, league:"Primera A",
-    potential:18000, note:"Club de Primera A del sur del país. Ex-cliente. Paquete básico: Wyscout + Hudl." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:12000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$8K) + Hudl (~$2K) + ADI (~$2K). Club del sur del país, Nariño." },
 
   // ── EX-CLIENTES — DIMAYOR (entidad estratégica) ──
   { key:"dimayor_entity", status:"excliente", name:"DIMAYOR", full:"División Mayor del Fútbol Colombiano", arr:0, league:"Federación",
@@ -802,53 +807,75 @@ const CLUBS = [
 
   // ── EX-CLIENTES — WIN SPORTS (conversión a contratos pagados) ──
   { key:"realsantander", status:"excliente", name:"Real Santander", full:"Real Santander", arr:0, league:"Primera B / Win Sports",
-    potential:15000, note:"Club Win Sports — video cubierto por acuerdo de derechos. Objetivo: convertir a contrato Wyscout/SB de pago directo." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:11000, note:"Win Sports cubre: Wyscout Pro 1C + Statsbomb 1L + video broadcast. Upsell directo a contrato propio: HSC Elite (~$7K) + ADI (~$4K)." },
   { key:"realcartagena", status:"excliente", name:"Real Cartagena", full:"Real Cartagena", arr:0, league:"Primera B / Win Sports",
-    potential:15000, note:"Club Win Sports. Mismo objetivo de conversión que Real Santander. Parte del bloque de cuentas Win Sports → pago." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:11000, note:"Win Sports cubre: Wyscout Pro 1C + Statsbomb 1L + video broadcast. Upsell: HSC Elite (~$7K) + ADI (~$4K). Objetivo: contrato propio directo con Hudl." },
   { key:"fortaleza", status:"excliente", name:"Fortaleza FC", full:"Fortaleza FC", arr:0, league:"Primera B / Win Sports",
-    potential:12000, note:"Club Win Sports activo. Parte del bloque de conversión Win Sports → contratos pagados. Cierre estimado Q3-Q4 FY27." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:10000, note:"Win Sports cubre: Wyscout Pro 1C + Statsbomb 1L + video broadcast. Upsell: HSC Elite (~$7K) + ADI (~$3K). Cierre estimado Q3-Q4 FY27." },
 
   // ── EX-CLIENTES — CON PIPELINE ACTIVO ──
   { key:"tigres", status:"excliente", name:"Tigres FC", full:"Tigres FC", arr:0, league:"Primera B",
-    potential:30684, note:"🔥 Propuesta activa de Statsbomb IQ Soccer ($30,684). Primera B. Reactivación de alto valor — cierre previsto Ago 2026." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:30684, note:"🔥 Propuesta activa Statsbomb IQ Soccer ($30,684) — upgrade sobre Statsbomb básico del contrato Win Sports. Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L base. Cierre previsto Ago 2026." },
 
   // ── EX-CLIENTES — PRIMERA B / OTROS ──
   { key:"envigado", status:"excliente", name:"Envigado FC", full:"Envigado FC", arr:0, league:"Primera B",
-    potential:14000, note:"Club activo de Primera B, suburbio de Medellín. Ex-cliente con potencial de reactivación." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:11000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$7K) + ADI (~$4K). Club activo suburbio de Medellín." },
   { key:"oncecaldas", status:"excliente", name:"Once Caldas", full:"Once Caldas S.A.", arr:0, league:"Primera B",
-    potential:20000, note:"Club histórico colombiano. Campeón de la Libertadores 2004. Primera B — alta prioridad de re-win por historia y masa de aficionados." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:13000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$8K) + ADI (~$5K). Club histórico, campeón Copa Libertadores 2004 — alta prioridad." },
   { key:"cucuta", status:"excliente", name:"Cúcuta Deportivo", full:"Cúcuta Deportivo", arr:0, league:"Primera B",
-    potential:14000, note:"Club histórico de la frontera, recientemente retornó a Primera B. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:11000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$7K) + ADI (~$4K). Club histórico de la frontera, retornó a Primera B." },
   { key:"jaguares", status:"excliente", name:"Jaguares de Córdoba", full:"Jaguares de Córdoba S.A.", arr:0, league:"Primera B",
-    potential:12000, note:"Club de la Costa Atlántica en Primera B. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:10000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$7K) + ADI (~$3K). Club costa atlántica, Montería." },
   { key:"alianzap", status:"excliente", name:"Alianza Petrolera", full:"Alianza Petrolera", arr:0, league:"Primera B",
-    potential:12000, note:"Club de Barrancabermeja, Primera B. Ex-cliente — candidato a reactivación." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:10000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$7K) + ADI (~$3K). Club de Barrancabermeja." },
   { key:"bogotafc", status:"excliente", name:"Bogotá FC", full:"Bogotá FC", arr:0, league:"Primera B",
-    potential:10000, note:"Club de Bogotá. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:9000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$6K) + ADI (~$3K). Club de Bogotá." },
   { key:"quindio", status:"excliente", name:"Dep. Quindío", full:"Deportes Quindío", arr:0, league:"Primera B",
-    potential:10000, note:"Club del Quindío, Primera B. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:9000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$6K) + ADI (~$3K). Club del Quindío." },
   { key:"leones", status:"excliente", name:"Leones FC", full:"Leones FC", arr:0, league:"Primera B",
-    potential:10000, note:"Club de Itagüí, Primera B. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:9000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$6K) + ADI (~$3K). Club de Itagüí, Antioquia." },
   { key:"huila", status:"excliente", name:"CD Atl. Huila", full:"Club Deportivo Atlético Huila", arr:0, league:"Primera B",
-    potential:10000, note:"Club del Huila en Primera B. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:9000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$6K) + ADI (~$3K). Club del Huila, sur del país." },
   { key:"boyacachico", status:"excliente", name:"Boyacá Chicó", full:"Boyacá Chicó FC", arr:0, league:"Primera B",
-    potential:10000, note:"Club tradicional de Boyacá. Ex-cliente activo en Primera B." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:9000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$6K) + ADI (~$3K). Club tradicional de Tunja, Boyacá." },
   { key:"unionmagdalena", status:"excliente", name:"Unión Magdalena", full:"Unión Magdalena", arr:0, league:"Primera B",
-    potential:12000, note:"Club histórico de Santa Marta. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:10000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$7K) + ADI (~$3K). Club histórico de Santa Marta." },
   { key:"llaneros", status:"excliente", name:"Llaneros FC", full:"Llaneros FC", arr:0, league:"Primera B",
-    potential:8000, note:"Club de los Llanos, Primera B. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:8000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$6K) + ADI (~$2K). Club de los Llanos orientales." },
   { key:"orsomarso", status:"excliente", name:"Orsomarso SC", full:"Orsomarso SC", arr:0, league:"Primera B",
-    potential:8000, note:"Club vallecaucano de Primera B. Ex-cliente." },
+    stack:{ wyscout:"dimayor", statsbomb:"dimayor", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:8000, note:"Vía contrato Win Sports: Wyscout Pro 1C + Statsbomb 1L. Upsell: HSC Elite (~$6K) + ADI (~$2K). Club vallecaucano." },
   { key:"patriotas", status:"excliente", name:"Patriotas Boyacá", full:"Patriotas Boyacá", arr:0, league:"Segunda",
-    potential:8000, note:"Club de Tunja. Ex-cliente." },
+    stack:{ wyscout:"missing", statsbomb:"missing", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:8000, note:"Sin cobertura Win Sports (Segunda División). Sin productos Hudl activos. Paquete básico: Wyscout Pro + Hudl + HSC (~$8K). Club de Tunja." },
   { key:"realcundina", status:"excliente", name:"Real Cundinamarca", full:"Real Cundinamarca", arr:0, league:"Segunda",
-    potential:7000, note:"Ex-cliente en categorías menores." },
+    stack:{ wyscout:"missing", statsbomb:"missing", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:6000, note:"Sin cobertura Win Sports. Paquete básico Wyscout + Hudl (~$6K). Ex-cliente, categoría menor." },
   { key:"interpalmira", status:"excliente", name:"Inter de Palmira", full:"Inter de Palmira", arr:0, league:"Segunda",
-    potential:7000, note:"Club del Valle del Cauca. Ex-cliente." },
+    stack:{ wyscout:"missing", statsbomb:"missing", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:6000, note:"Sin cobertura Win Sports. Paquete básico Wyscout + Hudl (~$6K). Club del Valle del Cauca." },
   { key:"atleticofc", status:"excliente", name:"Atletico FC", full:"Atletico FC", arr:0, league:"—",
-    potential:7000, note:"Ex-cliente. Categoría y estado por verificar." },
+    stack:{ wyscout:"missing", statsbomb:"missing", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:6000, note:"Sin cobertura Win Sports confirmada. Categoría y división por verificar. Paquete básico estimado." },
   { key:"bocajuniors", status:"excliente", name:"Boca Juniors de Cali", full:"Boca Juniors de Cali", arr:0, league:"Segunda",
-    potential:6000, note:"Club vallecaucano de segunda categoría. Ex-cliente." },
+    stack:{ wyscout:"missing", statsbomb:"missing", hsc:"missing", hudl:"missing", replay:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:5000, note:"Sin cobertura Win Sports. Club vallecaucano de segunda categoría. Potencial bajo — solo paquete mínimo." },
 
   // ── PROSPECTOS / CUENTAS SIN ARR ──
   { key:"olimpico", status:"prospect", name:"Comité Olímpico", full:"Comité Olímpico Colombiano", arr:0, league:"Olímpico / Nacional",
@@ -958,6 +985,7 @@ function stackClass(v) {
   if (v==="have") return "stack-have";
   if (v==="partial") return "stack-partial";
   if (v==="pipeline") return "stack-pipeline";
+  if (v==="dimayor") return "stack-dimayor";
   return "stack-missing";
 }
 
@@ -965,6 +993,7 @@ function stackSymbol(v) {
   if (v==="have") return " ✓";
   if (v==="partial") return " ~";
   if (v==="pipeline") return " ◐";
+  if (v==="dimayor") return " ◆";
   return " ✗";
 }
 
@@ -1079,7 +1108,12 @@ function renderClubs() {
       : `<span style="background:rgba(155,89,182,0.18);color:var(--purple);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:0.4px;">PROSPECTO</span>`;
     const leagueBadge = c.league ? `<span style="font-size:10px;color:var(--muted);margin-left:6px;">${c.league}</span>` : "";
     const potentialStyle = c.potential >= 20000 ? "color:var(--green);font-weight:700" : c.potential >= 10000 ? "color:var(--accent);font-weight:600" : "color:var(--muted)";
-    const oppType = c.status === "excliente" ? "Oportunidad reactivación" : "Oportunidad nuevo logo";
+    const oppType = c.status === "excliente" ? "Est. upsell directo" : "Oportunidad nuevo logo";
+    const hasDimayor = c.stack && Object.values(c.stack).some(v => v==="dimayor");
+    const stackSection = c.stack
+      ? `<div class="stack-grid" style="margin-bottom:10px;">${Object.entries(c.stack).map(([k,v])=>`<div class="stack-item ${stackClass(v)}">${stackLabel(k)}${stackSymbol(v)}</div>`).join("")}</div>`
+        + (hasDimayor ? `<div style="font-size:10px;color:var(--purple);margin-bottom:10px;opacity:0.9;">◆ vía contrato colectivo Win Sports · Wyscout Pro 1C + Statsbomb 1L</div>` : ``)
+      : "";
     return `<div class="club-card" style="border-color:${c.status==='excliente'?'rgba(231,76,60,0.25)':'rgba(155,89,182,0.25)'};opacity:0.92;">
       <div class="club-header" style="margin-bottom:8px;">
         <div>
@@ -1091,10 +1125,11 @@ function renderClubs() {
           <div class="club-arr-label">Sin ARR activo</div>
         </div>
       </div>
+      ${stackSection}
       <div class="club-note" style="margin:0 0 10px">${c.note||""}</div>
       <div class="club-narr-row">
         <div class="club-narr-label">${oppType}</div>
-        <div class="club-narr-value" style="${potentialStyle}">${c.potential > 0 ? fmt(c.potential) : "TBD"}</div>
+        <div class="club-narr-value" style="${potentialStyle}">${c.potential > 0 ? fmt(c.potential) + " <span style='font-size:10px;font-weight:400;color:var(--muted);'>est.</span>" : "TBD"}</div>
       </div>
       ${pipeline}
     </div>`;
