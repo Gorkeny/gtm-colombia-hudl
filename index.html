@@ -495,7 +495,7 @@
           <td>Cerrar Propuesta activa</td>
           <td>Statsbomb IQ Soccer</td>
           <td style="color:var(--green)">$30,684</td>
-          <td>Q1 — Ago 2026</td>
+          <td>Q2 — Ago 2026</td>
         </tr>
         <tr>
           <td><span class="badge badge-urgent">🔴 P1</span></td>
@@ -503,7 +503,7 @@
           <td>Cerrar amendment en negociación</td>
           <td>Amendment / Upgrade</td>
           <td style="color:var(--green)">$3,270</td>
-          <td>Q1 — Ago 2026</td>
+          <td>Q2 — Ago 2026</td>
         </tr>
         <tr>
           <td><span class="badge badge-yellow">🟡 P2</span></td>
@@ -511,7 +511,7 @@
           <td>Upsell post-renovación</td>
           <td>Statsbomb + ADI (selección + youth)</td>
           <td style="color:var(--accent)">$40,000</td>
-          <td>Q2 — Oct-Nov 2026</td>
+          <td>Q3 — Oct-Nov 2026</td>
         </tr>
         <tr>
           <td><span class="badge badge-yellow">🟡 P2</span></td>
@@ -519,7 +519,7 @@
           <td>Primera demo + propuesta</td>
           <td>Statsbomb 360 + HSC Elite</td>
           <td style="color:var(--accent)">$38,000</td>
-          <td>Q2 — Nov-Dic 2026</td>
+          <td>Q3 — Nov-Dic 2026</td>
         </tr>
         <tr>
           <td><span class="badge badge-yellow">🟡 P2</span></td>
@@ -527,7 +527,7 @@
           <td>Demo Statsbomb (ya tienen HSC)</td>
           <td>Statsbomb 360 + ADI</td>
           <td style="color:var(--accent)">$32,000</td>
-          <td>Q2 — Nov-Dic 2026</td>
+          <td>Q3 — Nov-Dic 2026</td>
         </tr>
         <tr>
           <td><span class="badge badge-yellow">🟡 P2</span></td>
@@ -543,7 +543,7 @@
           <td>Upsell completo tras amendment</td>
           <td>Statsbomb + ADI + Focus Flex</td>
           <td style="color:var(--blue)">$28,000</td>
-          <td>Q3 — Feb-Mar 2027</td>
+          <td>Q4 — Feb-Mar 2027</td>
         </tr>
         <tr>
           <td><span class="badge badge-blue">🔵 P3</span></td>
@@ -551,7 +551,7 @@
           <td>Upsell (ya tienen Focus Flex)</td>
           <td>Statsbomb 360 + ADI</td>
           <td style="color:var(--blue)">$28,000</td>
-          <td>Q3 — Feb-Mar 2027</td>
+          <td>Q4 — Feb-Mar 2027</td>
         </tr>
         <tr>
           <td><span class="badge badge-blue">🔵 P3</span></td>
@@ -583,7 +583,7 @@
           <td>Upsell analytics</td>
           <td>Statsbomb + Wimu</td>
           <td style="color:var(--muted)">$22,000</td>
-          <td>Q4 — May-Jun 2027</td>
+          <td>Q4 — Ene-Mar 2027</td>
         </tr>
         <tr>
           <td><span class="badge badge-purple">🟣 P4</span></td>
@@ -591,7 +591,7 @@
           <td>Upgrade Statsbomb IQ → 360 + stack</td>
           <td>Statsbomb 360 + HSC + ADI</td>
           <td style="color:var(--muted)">$28,000</td>
-          <td>Q4 — May-Jun 2027</td>
+          <td>Q4 — Ene-Mar 2027</td>
         </tr>
         <tr>
           <td><span class="badge badge-purple">🟣 P4</span></td>
@@ -892,55 +892,57 @@ const CLUBS = [
 
 const QUARTERS = [
   {
-    label:"Q1", period:"Ago–Oct 2026", target:90000,
+    label:"Q1", period:"Abr–Jun 2026", target:0,
+    color:"var(--muted)",
+    deals:[
+      { name:"FCF — preparación renovación (cierre Jul)", amt:0 },
+      { name:"DIM — negociación amendment (cierre Ago)", amt:0 },
+      { name:"Tigres FC — propuesta Statsbomb (cierre Ago)", amt:0 },
+      { name:"Nacional, Millonarios — demos iniciales", amt:0 },
+      { name:"FCF — discovery Statsbomb + ADI", amt:0 },
+    ],
+    note:"Q1 cerrado: trimestre de construcción de pipeline. Ningún cierre neto — todas las oportunidades activas se cierran en Q2 o posterior."
+  },
+  {
+    label:"Q2", period:"Jul–Sep 2026", target:55000,
     color:"var(--red)",
     deals:[
       { name:"FCF Renovación upsell", amt:4614 },
-      { name:"Tigres FC — Statsbomb", amt:30684 },
-      { name:"DIM Amendment", amt:3270 },
-      { name:"FCF — Statsbomb + ADI (kick-off)", amt:15000 },
-      { name:"Atlético Nacional — demo + propuesta", amt:0 },
-      { name:"Millonarios — demo Statsbomb", amt:0 },
+      { name:"DIM — Amendment / Upgrade", amt:3270 },
+      { name:"Tigres FC — Statsbomb IQ Soccer", amt:30684 },
+      { name:"FCF — Statsbomb + ADI (kick-off / partial)", amt:15000 },
+      { name:"Nacional — propuesta formal", amt:0 },
+      { name:"Millonarios — demo + propuesta", amt:0 },
     ],
-    note:"Cerrar todo lo que hay en pipeline ahora. Iniciar demos con Nacional y Millonarios."
+    note:"🔥 Sprint de cierres. FCF URGENTE 27 Jul. Tigres = primer nuevo logo del FY. Iniciar demos Primera A."
   },
   {
-    label:"Q2", period:"Nov 2026–Ene 2027", target:200000,
+    label:"Q3", period:"Oct–Dic 2026", target:155000,
     color:"var(--orange)",
     deals:[
-      { name:"FCF — Statsbomb + ADI cierre", amt:25000 },
-      { name:"Atlético Nacional — Statsbomb + HSC", amt:38000 },
+      { name:"FCF — Statsbomb + ADI (cierre)", amt:25000 },
+      { name:"Atlético Nacional — Statsbomb + HSC Elite", amt:38000 },
       { name:"Millonarios — Statsbomb + ADI", amt:32000 },
-      { name:"DIM — Statsbomb + ADI", amt:28000 },
-      { name:"DIMAYOR Wimu — kick-off negociación", amt:0 },
-      { name:"Comité Olímpico — propuesta Wimu", amt:0 },
-    ],
-    note:"Cerrar top 3 upsells Primera A. Iniciar negociación colectiva DIMAYOR Wimu."
-  },
-  {
-    label:"Q3", period:"Feb–Abr 2027", target:250000,
-    color:"var(--accent)",
-    deals:[
-      { name:"DIMAYOR Wimu colectivo (cierre)", amt:250000 },
       { name:"América de Cali — Statsbomb + ADI", amt:28000 },
-      { name:"Tolima — Statsbomb + ADI + Focus", amt:28000 },
-      { name:"Junior — HSC + Statsbomb", amt:32000 },
-      { name:"Comité Olímpico Colombiano — Wimu", amt:20000 },
-      { name:"Win Sports clubs → contratos pago", amt:25000 },
+      { name:"Deportes Tolima — Statsbomb + ADI + Focus", amt:28000 },
+      { name:"DIMAYOR Wimu — inicio negociación marco", amt:0 },
     ],
-    note:"El deal DIMAYOR Wimu es el pivot del Q3. Sin él, este trimestre no llega a target."
+    note:"Mayor trimestre de upsells Primera A. Aprovechar momentum post-renovación FCF para cerrar stack deals."
   },
   {
-    label:"Q4", period:"May–Jul 2027", target:160000,
+    label:"Q4", period:"Ene–Mar 2027", target:490000,
     color:"var(--green)",
     deals:[
-      { name:"DIMAYOR Focus Outdoor (piloto)", amt:80000 },
-      { name:"Aguilas Doradas — Statsbomb + Wimu", amt:22000 },
-      { name:"La Equidad — stack upgrade", amt:28000 },
+      { name:"DIMAYOR Wimu colectivo (~20 clubes)", amt:250000 },
+      { name:"DIMAYOR Focus Outdoor — piloto estadios", amt:80000 },
+      { name:"Junior — HSC Elite + Statsbomb", amt:32000 },
       { name:"Deportivo Cali — stack completo", amt:35000 },
-      { name:"Nuevos logos (1-2 más)", amt:20000 },
+      { name:"Aguilas Doradas — Statsbomb + Wimu", amt:22000 },
+      { name:"La Equidad — upgrade stack", amt:28000 },
+      { name:"Comité Olímpico — Wimu", amt:20000 },
+      { name:"Win Sports clubs → contratos pagados", amt:32000 },
     ],
-    note:"Consolidar upsells tardíos y cerrar DIMAYOR Focus Outdoor piloto en estadios."
+    note:"El deal DIMAYOR Wimu ($250K) es el pivot del FY. Sin él el techo es ~$450K. Q4 cierra el FY26/27 en Marzo 2027."
   }
 ];
 
