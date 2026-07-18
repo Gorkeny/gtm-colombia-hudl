@@ -445,6 +445,11 @@
     <br>⚠️ <strong style="color:var(--text)">Todos los clubes tienen Catapult</strong> vía DIMAYOR → oportunidad de reemplazar con Wimu
   </div>
 
+  <div style="margin-bottom:12px;">
+    <input id="clubs-search" type="text" placeholder="🔍 Buscar club por nombre…" oninput="renderClubs()"
+      style="width:100%;max-width:360px;padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;outline:none;transition:border-color .2s;"
+      onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+  </div>
   <div class="pipeline-filter" id="clubs-filter">
     <button class="filter-btn active" onclick="filterClubs('all',this)">Todos (42)</button>
     <button class="filter-btn" onclick="filterClubs('active',this)">🟢 Activos (10)</button>
@@ -1034,7 +1039,10 @@ function filterClubs(status, btn) {
 
 function renderClubs() {
   const container = document.getElementById("clubs-container");
-  const filtered = _clubsFilter === "all" ? CLUBS : CLUBS.filter(c => c.status === _clubsFilter);
+  const searchEl = document.getElementById("clubs-search");
+  const q = searchEl ? searchEl.value.trim().toLowerCase() : "";
+  let filtered = _clubsFilter === "all" ? CLUBS : CLUBS.filter(c => c.status === _clubsFilter);
+  if (q) filtered = filtered.filter(c => (c.name + " " + (c.full||"")).toLowerCase().includes(q));
 
   container.innerHTML = filtered.map(c => {
     const pipeline = pipelineBlock(c.key);
