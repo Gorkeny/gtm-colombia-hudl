@@ -431,18 +431,25 @@
 <!-- ══════════════════ CLUBES ══════════════════ -->
 <div id="page-clubs" class="page">
 
-  <div class="section-title">🏟️ Stack por Club — Metodología Completa vs Actual</div>
+  <div class="section-title">🏟️ Stack por Club — 42 Cuentas Colombia</div>
 
   <div class="legend">
     <div class="legend-item"><div class="legend-box" style="background:rgba(46,204,113,0.3); border:1px solid var(--green)"></div> Tienen</div>
-    <div class="legend-item"><div class="legend-box" style="background:rgba(243,156,18,0.3); border:1px solid var(--orange)"></div> Parcial / Versión básica</div>
+    <div class="legend-item"><div class="legend-box" style="background:rgba(243,156,18,0.3); border:1px solid var(--orange)"></div> Parcial</div>
     <div class="legend-item"><div class="legend-box" style="background:rgba(245,208,32,0.2); border:1px dashed var(--accent)"></div> En Pipeline</div>
-    <div class="legend-item"><div class="legend-box" style="background:rgba(231,76,60,0.1); border:1px dashed var(--red)"></div> Falta · Oportunidad NARR</div>
+    <div class="legend-item"><div class="legend-box" style="background:rgba(231,76,60,0.1); border:1px dashed var(--red)"></div> Falta · NARR opportunity</div>
   </div>
 
-  <div style="font-size:12px; color:var(--muted); margin-bottom:20px; padding:10px; background:var(--surface); border-radius:8px; border-left:3px solid var(--purple);">
-    📌 <strong style="color:var(--text)">Stack completo ideal:</strong> Wyscout + Statsbomb 360 + Hudl + HSC Sportscode Elite + Focus (Flex o Outdoor) + ADI + Wimu | Opcionales: Broadcast Tracking, API, Hudl Replay
-    <br>⚠️ <strong style="color:var(--text)">Todos los clubes tienen Catapult</strong> vía acuerdo colectivo DIMAYOR → oportunidad de reemplazar con Wimu
+  <div style="font-size:12px; color:var(--muted); margin-bottom:16px; padding:10px; background:var(--surface); border-radius:8px; border-left:3px solid var(--purple);">
+    📌 <strong style="color:var(--text)">Stack ideal:</strong> Wyscout + Statsbomb + Hudl + HSC + Focus + ADI + Wimu | Opcionales: API, Replay, Broadcast Tracking
+    <br>⚠️ <strong style="color:var(--text)">Todos los clubes tienen Catapult</strong> vía DIMAYOR → oportunidad de reemplazar con Wimu
+  </div>
+
+  <div class="pipeline-filter" id="clubs-filter">
+    <button class="filter-btn active" onclick="filterClubs('all',this)">Todos (42)</button>
+    <button class="filter-btn" onclick="filterClubs('active',this)">🟢 Activos (10)</button>
+    <button class="filter-btn" onclick="filterClubs('excliente',this)">🔴 Ex-Clientes (27)</button>
+    <button class="filter-btn" onclick="filterClubs('prospect',this)">🟡 Sin ARR / Prospectos (5)</button>
   </div>
 
   <div class="clubs-grid" id="clubs-container"></div>
@@ -721,97 +728,134 @@
 <script>
 // ─── DATA ───────────────────────────────────────────────
 const PIPELINE = [
-  { name:"FCF — Renovación Upsell", track:"fcf", stage:"Propuesta", narr:4614, prob:90, close:"27 Jul 2026", note:"OPP 006VY00000KagV5YAJ · URGENTE 10 días" },
-  { name:"DIM — Amendment / Upgrade", track:"primera", stage:"Negociación", narr:3270, prob:90, close:"Ago 2026", note:"En negociación activa" },
-  { name:"Tigres FC — Statsbomb IQ Soccer", track:"nuevos", stage:"Propuesta", narr:30684, prob:75, close:"15 Ago 2026", note:"Primer nuevo logo Q1" },
-  { name:"FCF — Statsbomb 360 + ADI", track:"fcf", stage:"Interés", narr:40000, prob:40, close:"Q2 FY27", note:"Post-renovación · Selección + Liga youth" },
-  { name:"Atlético Nacional — Statsbomb 360 + HSC Elite", track:"primera", stage:"Interés", narr:38000, prob:60, close:"Nov-Dic 2026", note:"Mayor stack gap Primera A" },
-  { name:"Millonarios FC — Statsbomb 360 + ADI", track:"primera", stage:"Interés", narr:32000, prob:55, close:"Nov-Dic 2026", note:"Ya tienen HSC · entrada natural" },
-  { name:"América de Cali — Statsbomb 360 + ADI", track:"primera", stage:"Interés", narr:28000, prob:50, close:"Q2 FY27", note:"Ya tienen Focus Flex + HSC" },
-  { name:"Deportes Tolima — Statsbomb + ADI + Focus Flex", track:"primera", stage:"Interés", narr:28000, prob:45, close:"Q2-Q3 FY27", note:"Stack similar a DIM" },
-  { name:"Junior — HSC Elite + Statsbomb 360", track:"primera", stage:"Interés", narr:32000, prob:45, close:"Q2-Q3 FY27", note:"Tienen ADI y Focus SW" },
-  { name:"Deportivo Cali — Stack completo", track:"primera", stage:"Por crear", narr:35000, prob:40, close:"Q3 FY27", note:"Solo tienen Wyscout" },
-  { name:"Aguilas Doradas — Statsbomb + Wimu", track:"primera", stage:"Por crear", narr:22000, prob:40, close:"Q3 FY27", note:"Tienen Wyscout + HSC" },
-  { name:"La Equidad — HSC + Statsbomb 360 + ADI", track:"primera", stage:"Por crear", narr:28000, prob:40, close:"Q3-Q4 FY27", note:"Upgrade Hudl IQ → Statsbomb 360" },
-  { name:"DIMAYOR — Wimu (reemplaza Catapult, ~20 clubes)", track:"dimayor", stage:"Estratégico", narr:250000, prob:35, close:"Q3-Q4 FY27", note:"Acuerdo colectivo marco · TBD precio" },
-  { name:"DIMAYOR — Focus Outdoor Estadios", track:"dimayor", stage:"Concepto", narr:130000, prob:25, close:"Q4 FY27", note:"Piloto 5-8 estadios Liga BetPlay + Win Sports" },
-  { name:"Comité Olímpico Colombiano — Wimu", track:"nuevos", stage:"Interés", narr:20000, prob:30, close:"Q3 FY27", note:"Rendimiento olímpico" },
-  { name:"Win Sports → Cuentas pago (Real Stder, R.Carta, Fortaleza)", track:"nuevos", stage:"Por crear", narr:45000, prob:25, close:"Q3-Q4 FY27", note:"Conversión de cuentas Win Sports a contratos Wyscout/SB" },
-  { name:"Ministerio del Deporte — Wimu institucional", track:"nuevos", stage:"Interés", narr:0, prob:20, close:"TBD", note:"Valor por definir con gobierno" },
-  { name:"FCF — Focus Outdoor / Wimu Selección", track:"fcf", stage:"Por crear", narr:35000, prob:30, close:"Q4 FY27", note:"Selección Nacional · largo plazo" },
+  { name:"FCF — Renovación Upsell", clubKey:"fcf", track:"fcf", stage:"Propuesta", narr:4614, prob:90, close:"27 Jul 2026", note:"OPP 006VY00000KagV5YAJ · URGENTE 10 días", sfLink:"https://hudl.lightning.force.com/lightning/r/Opportunity/006VY00000KagV5YAJ/view" },
+  { name:"DIM — Amendment / Upgrade", clubKey:"dim", track:"primera", stage:"Negociación", narr:3270, prob:90, close:"Ago 2026", note:"En negociación activa" },
+  { name:"Tigres FC — Statsbomb IQ Soccer", clubKey:"tigres", track:"nuevos", stage:"Propuesta", narr:30684, prob:75, close:"15 Ago 2026", note:"Primer nuevo logo Q1" },
+  { name:"FCF — Statsbomb 360 + ADI", clubKey:"fcf", track:"fcf", stage:"Interés", narr:40000, prob:40, close:"Q2 FY27", note:"Post-renovación · Selección + Liga youth" },
+  { name:"Atlético Nacional — Statsbomb 360 + HSC Elite", clubKey:"nacional", track:"primera", stage:"Interés", narr:38000, prob:60, close:"Nov-Dic 2026", note:"Mayor stack gap Primera A" },
+  { name:"Millonarios FC — Statsbomb 360 + ADI", clubKey:"millonarios", track:"primera", stage:"Interés", narr:32000, prob:55, close:"Nov-Dic 2026", note:"Ya tienen HSC · entrada natural" },
+  { name:"América de Cali — Statsbomb 360 + ADI", clubKey:"america", track:"primera", stage:"Interés", narr:28000, prob:50, close:"Q2 FY27", note:"Ya tienen Focus Flex + HSC" },
+  { name:"Deportes Tolima — Statsbomb + ADI + Focus Flex", clubKey:"tolima", track:"primera", stage:"Interés", narr:28000, prob:45, close:"Q2-Q3 FY27", note:"Stack similar a DIM" },
+  { name:"Junior — HSC Elite + Statsbomb 360", clubKey:"junior", track:"primera", stage:"Interés", narr:32000, prob:45, close:"Q2-Q3 FY27", note:"Tienen ADI y Focus SW" },
+  { name:"Deportivo Cali — Stack completo", clubKey:"cali", track:"primera", stage:"Por crear", narr:35000, prob:40, close:"Q3 FY27", note:"Solo tienen Wyscout" },
+  { name:"Aguilas Doradas — Statsbomb + Wimu", clubKey:"aguilas", track:"primera", stage:"Por crear", narr:22000, prob:40, close:"Q3 FY27", note:"Tienen Wyscout + HSC" },
+  { name:"La Equidad — HSC + Statsbomb 360 + ADI", clubKey:"inter", track:"primera", stage:"Por crear", narr:28000, prob:40, close:"Q3-Q4 FY27", note:"Upgrade Hudl IQ → Statsbomb 360" },
+  { name:"DIMAYOR — Wimu (reemplaza Catapult, ~20 clubes)", clubKey:"dimayor_entity", track:"dimayor", stage:"Estratégico", narr:250000, prob:35, close:"Q3-Q4 FY27", note:"Acuerdo colectivo marco · TBD precio" },
+  { name:"DIMAYOR — Focus Outdoor Estadios", clubKey:"dimayor_entity", track:"dimayor", stage:"Concepto", narr:130000, prob:25, close:"Q4 FY27", note:"Piloto 5-8 estadios Liga BetPlay + Win Sports" },
+  { name:"Comité Olímpico Colombiano — Wimu", clubKey:"olimpico", track:"nuevos", stage:"Interés", narr:20000, prob:30, close:"Q3 FY27", note:"Rendimiento olímpico" },
+  { name:"Win Sports → Real Santander / Real Cartagena / Fortaleza", clubKeys:["realsantander","realcartagena","fortaleza"], track:"nuevos", stage:"Por crear", narr:45000, prob:25, close:"Q3-Q4 FY27", note:"Conversión cuentas Win Sports a contratos pagados Wyscout/SB" },
+  { name:"Ministerio del Deporte — Wimu institucional", clubKey:"ministerio", track:"nuevos", stage:"Interés", narr:0, prob:20, close:"TBD", note:"Valor por definir con gobierno" },
+  { name:"FCF — Focus Outdoor / Wimu Selección", clubKey:"fcf", track:"fcf", stage:"Por crear", narr:35000, prob:30, close:"Q4 FY27", note:"Selección Nacional · largo plazo" },
 ];
 
 const CLUBS = [
-  {
-    name:"FCF", full:"Federación Colombiana de Fútbol",
-    arr:56449, priority:1,
+  // ── CLIENTES ACTIVOS — datos verificados vía Salesforce (Dot AI) · 17 Jul 2026 ──
+  { key:"fcf", status:"active", name:"FCF", full:"Federación Colombiana de Fútbol", arr:56449, priority:1,
     stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"pipeline", adi:"pipeline", focus:"missing", wimu:"missing" },
-    potential:80000,
-    note:"Cuenta ancla Colombia. Renovación urgente 27 Jul. Upsell Statsbomb + ADI como siguiente paso estratégico."
-  },
-  {
-    name:"Atlético Nacional", full:"Atlético Nacional S.A.",
-    arr:24644, priority:2,
+    potential:80000, note:"Productos activos: Wyscout, Sportscode Elite, Hudl Replay, Penalties App, Referee Accounts, Scout. Renovación urgente 27 Jul. Upsell Statsbomb + ADI." },
+  { key:"nacional", status:"active", name:"Atlético Nacional", full:"Atlético Nacional de Medellín", arr:24644, priority:2,
     stack:{ wyscout:"have", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
-    potential:75000,
-    note:"Mayor stack gap de la Primera A. Solo tienen Wyscout + Hudl. Empezar con Statsbomb + HSC — high-impact upsell."
-  },
-  {
-    name:"Millonarios FC", full:"Millonarios Fútbol Club S.A.",
-    arr:20697, priority:3,
+    potential:75000, note:"Productos activos: Wyscout Pro, Hudl Gold, Scout Account. Mayor stack gap de Primera A — solo análisis básico. Alta prioridad: HSC + Statsbomb." },
+  { key:"aguilas", status:"active", name:"Aguilas Doradas", full:"Rionegro Águilas / Aguilas Doradas", arr:20760, priority:2,
     stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
-    potential:60000,
-    note:"Tienen HSC. Entrada natural: Statsbomb 360 + ADI. Luego Focus Flex + Wimu en Q3."
-  },
-  {
-    name:"DIM", full:"Deportivo Independiente Medellín",
-    arr:20278, priority:3,
+    potential:45000, note:"ARR real: $20,760 — 3er cliente más grande. Productos: Wyscout, Sportscode Elite, Coda iCoda (hardware), Replay. Próximo: Statsbomb + ADI." },
+  { key:"millonarios", status:"active", name:"Millonarios FC", full:"Millonarios Fútbol Club S.A.", arr:20697, priority:3,
+    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
+    potential:60000, note:"Productos activos: Wyscout, Sportscode Elite, Hudl Bronze, Replay, Penalties App. Stack sólido — entrada natural: Statsbomb 360 + ADI." },
+  { key:"dim", status:"active", name:"DIM", full:"Deportivo Independiente Medellín", arr:20278, priority:3,
     stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"missing", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
-    potential:55000,
-    note:"Amendment $3,270 en Negociación (cierre inminente). Próximo: Statsbomb + ADI + Focus Flex."
-  },
-  {
-    name:"América de Cali", full:"América de Cali S.A.",
-    arr:14646, priority:4,
-    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"partial", wimu:"missing" },
-    potential:43000,
-    note:"Ya tienen Focus Flex + HSC. Upsell lógico: Statsbomb 360 + ADI. Considerar upgrade Focus Outdoor."
-  },
-  {
-    name:"Deportes Tolima", full:"Deportes Tolima S.A.",
-    arr:12001, priority:4,
+    potential:55000, note:"Productos: Wyscout Pro, Sportscode Elite, Hudl Bronze, Premier Service. Amendment $3,270 en negociación. Próximo: Statsbomb + ADI." },
+  { key:"america", status:"active", name:"América de Cali", full:"América de Cali S.A.", arr:14646, priority:4,
+    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"have", wimu:"missing" },
+    potential:43000, note:"Productos: Wyscout, Sportscode Elite, Focus Flex Software, Hudl Silver, Replay. Ya tienen Focus Flex. Upsell: Statsbomb 360 + ADI." },
+  { key:"junior", status:"active", name:"Junior", full:"Junior de Barranquilla S.A.", arr:14000, priority:4,
+    stack:{ wyscout:"have", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"missing", adi:"have", focus:"have", wimu:"missing" },
+    potential:47000, note:"Productos: Wyscout, ADI (Hudl Signal), Focus Flex Software, Hudl Gold, Penalties App. Tienen ADI + Focus. Falta: HSC Elite + Statsbomb 360." },
+  { key:"cali", status:"active", name:"Deportivo Cali", full:"Club Deportivo Cali S.A.", arr:12082, priority:4,
+    stack:{ wyscout:"have", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"missing", adi:"have", focus:"have", api:"have", wimu:"missing" },
+    potential:45000, note:"Productos: Wyscout, ADI, Focus Flex (hardware + software), API Competition Events, Hudl Gold. Mejor stack del que aparentaba. Falta: HSC + Statsbomb." },
+  { key:"tolima", status:"active", name:"Deportes Tolima", full:"Deportes Tolima S.A.", arr:12001, priority:4,
     stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
-    potential:51000,
-    note:"Stack similar a DIM. Vender Statsbomb + ADI + Focus Flex como paquete metodológico completo."
-  },
-  {
-    name:"Junior", full:"Junior de Barranquilla S.A.",
-    arr:14000, priority:4,
-    stack:{ wyscout:"have", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"missing", adi:"have", focus:"partial", wimu:"missing" },
-    potential:47000,
-    note:"Tienen ADI + Focus SW. Falta HSC Elite + Statsbomb 360 + Wimu para completar metodología."
-  },
-  {
-    name:"Deportivo Cali", full:"Deportivo Cali S.A.",
-    arr:12082, priority:5,
-    stack:{ wyscout:"have", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
-    potential:50000,
-    note:"Stack básico — solo Wyscout + Hudl. Gran oportunidad de upsell completo en Q3."
-  },
-  {
-    name:"Aguilas Doradas", full:"Rionegro Aguilas / Aguilas Doradas",
-    arr:7002, priority:5,
-    stack:{ wyscout:"have", hsc:"have", hudl:"have", replay:"have", statsbomb:"missing", adi:"missing", focus:"missing", wimu:"missing" },
-    potential:34000,
-    note:"Tienen Wyscout + HSC + Replay. Priorizar Statsbomb + Wimu como diferenciadores competitivos."
-  },
-  {
-    name:"La Equidad", full:"Internacional de Bogotá / La Equidad",
-    arr:9246, priority:5,
+    potential:51000, note:"Productos: Wyscout, Sportscode Elite, Hudl Gold, Replay. Stack similar a Millonarios. Paquete ideal: Statsbomb + ADI + Focus Flex." },
+  { key:"inter", status:"active", name:"Inter Bogotá", full:"Internacional de Bogotá (La Equidad)", arr:9246, priority:5,
     stack:{ wyscout:"partial", hsc:"missing", hudl:"have", replay:"missing", statsbomb:"partial", adi:"missing", focus:"missing", wimu:"missing" },
-    potential:40000,
-    note:"Tienen Wyscout 5 países + Hudl IQ básico. Upgrade a Statsbomb 360 completo + HSC + ADI + Focus."
-  },
+    potential:40000, note:"Productos: Wyscout Pro 5 Countries, Hudl Gold, Hudl IQ Soccer 5 Leagues. Tienen IQ (analytics básico), no Statsbomb 360. Upgrade completo pendiente." },
+
+  // ── EX-CLIENTES PRIMERA A (máxima prioridad de reactivación) ──
+  { key:"santafe", status:"excliente", name:"Independiente Santa Fe", full:"Independiente Santa Fe S.A.", arr:0, league:"Primera A",
+    potential:30000, note:"Uno de los clubes más grandes de Colombia — sin ningún producto Hudl activo. Alta prioridad de re-win. Entrada: Wyscout + Hudl + HSC." },
+  { key:"bucaramanga", status:"excliente", name:"Atl. Bucaramanga", full:"Atlético Bucaramanga S.A.", arr:0, league:"Primera A",
+    potential:22000, note:"Club de Primera A activo. Ex-cliente sin productos activos. Paquete entrada: Wyscout + Hudl + HSC." },
+  { key:"pereira", status:"excliente", name:"Deportivo Pereira", full:"Deportivo Pereira S.A.", arr:0, league:"Primera A",
+    potential:20000, note:"Club de Primera A activo. Ex-cliente — buena oportunidad de reactivación con paquete básico Wyscout + Hudl." },
+  { key:"pasto", status:"excliente", name:"Deportivo Pasto", full:"Deportivo Pasto", arr:0, league:"Primera A",
+    potential:18000, note:"Club de Primera A del sur del país. Ex-cliente. Paquete básico: Wyscout + Hudl." },
+
+  // ── EX-CLIENTES — DIMAYOR (entidad estratégica) ──
+  { key:"dimayor_entity", status:"excliente", name:"DIMAYOR", full:"División Mayor del Fútbol Colombiano", arr:0, league:"Federación",
+    potential:380000, note:"🎯 ENTIDAD MÁS ESTRATÉGICA: Wimu colectivo para ~20 clubes (~$250K, reemplaza Catapult) + Focus Outdoor estadios (~$130K). El deal más grande del FY." },
+
+  // ── EX-CLIENTES — WIN SPORTS (conversión a contratos pagados) ──
+  { key:"realsantander", status:"excliente", name:"Real Santander", full:"Real Santander", arr:0, league:"Primera B / Win Sports",
+    potential:15000, note:"Club Win Sports — video cubierto por acuerdo de derechos. Objetivo: convertir a contrato Wyscout/SB de pago directo." },
+  { key:"realcartagena", status:"excliente", name:"Real Cartagena", full:"Real Cartagena", arr:0, league:"Primera B / Win Sports",
+    potential:15000, note:"Club Win Sports. Mismo objetivo de conversión que Real Santander. Parte del bloque de cuentas Win Sports → pago." },
+  { key:"fortaleza", status:"excliente", name:"Fortaleza FC", full:"Fortaleza FC", arr:0, league:"Primera B / Win Sports",
+    potential:12000, note:"Club Win Sports activo. Parte del bloque de conversión Win Sports → contratos pagados. Cierre estimado Q3-Q4 FY27." },
+
+  // ── EX-CLIENTES — CON PIPELINE ACTIVO ──
+  { key:"tigres", status:"excliente", name:"Tigres FC", full:"Tigres FC", arr:0, league:"Primera B",
+    potential:30684, note:"🔥 Propuesta activa de Statsbomb IQ Soccer ($30,684). Primera B. Reactivación de alto valor — cierre previsto Ago 2026." },
+
+  // ── EX-CLIENTES — PRIMERA B / OTROS ──
+  { key:"envigado", status:"excliente", name:"Envigado FC", full:"Envigado FC", arr:0, league:"Primera B",
+    potential:14000, note:"Club activo de Primera B, suburbio de Medellín. Ex-cliente con potencial de reactivación." },
+  { key:"oncecaldas", status:"excliente", name:"Once Caldas", full:"Once Caldas S.A.", arr:0, league:"Primera B",
+    potential:20000, note:"Club histórico colombiano. Campeón de la Libertadores 2004. Primera B — alta prioridad de re-win por historia y masa de aficionados." },
+  { key:"cucuta", status:"excliente", name:"Cúcuta Deportivo", full:"Cúcuta Deportivo", arr:0, league:"Primera B",
+    potential:14000, note:"Club histórico de la frontera, recientemente retornó a Primera B. Ex-cliente." },
+  { key:"jaguares", status:"excliente", name:"Jaguares de Córdoba", full:"Jaguares de Córdoba S.A.", arr:0, league:"Primera B",
+    potential:12000, note:"Club de la Costa Atlántica en Primera B. Ex-cliente." },
+  { key:"alianzap", status:"excliente", name:"Alianza Petrolera", full:"Alianza Petrolera", arr:0, league:"Primera B",
+    potential:12000, note:"Club de Barrancabermeja, Primera B. Ex-cliente — candidato a reactivación." },
+  { key:"bogotafc", status:"excliente", name:"Bogotá FC", full:"Bogotá FC", arr:0, league:"Primera B",
+    potential:10000, note:"Club de Bogotá. Ex-cliente." },
+  { key:"quindio", status:"excliente", name:"Dep. Quindío", full:"Deportes Quindío", arr:0, league:"Primera B",
+    potential:10000, note:"Club del Quindío, Primera B. Ex-cliente." },
+  { key:"leones", status:"excliente", name:"Leones FC", full:"Leones FC", arr:0, league:"Primera B",
+    potential:10000, note:"Club de Itagüí, Primera B. Ex-cliente." },
+  { key:"huila", status:"excliente", name:"CD Atl. Huila", full:"Club Deportivo Atlético Huila", arr:0, league:"Primera B",
+    potential:10000, note:"Club del Huila en Primera B. Ex-cliente." },
+  { key:"boyacachico", status:"excliente", name:"Boyacá Chicó", full:"Boyacá Chicó FC", arr:0, league:"Primera B",
+    potential:10000, note:"Club tradicional de Boyacá. Ex-cliente activo en Primera B." },
+  { key:"unionmagdalena", status:"excliente", name:"Unión Magdalena", full:"Unión Magdalena", arr:0, league:"Primera B",
+    potential:12000, note:"Club histórico de Santa Marta. Ex-cliente." },
+  { key:"llaneros", status:"excliente", name:"Llaneros FC", full:"Llaneros FC", arr:0, league:"Primera B",
+    potential:8000, note:"Club de los Llanos, Primera B. Ex-cliente." },
+  { key:"orsomarso", status:"excliente", name:"Orsomarso SC", full:"Orsomarso SC", arr:0, league:"Primera B",
+    potential:8000, note:"Club vallecaucano de Primera B. Ex-cliente." },
+  { key:"patriotas", status:"excliente", name:"Patriotas Boyacá", full:"Patriotas Boyacá", arr:0, league:"Segunda",
+    potential:8000, note:"Club de Tunja. Ex-cliente." },
+  { key:"realcundina", status:"excliente", name:"Real Cundinamarca", full:"Real Cundinamarca", arr:0, league:"Segunda",
+    potential:7000, note:"Ex-cliente en categorías menores." },
+  { key:"interpalmira", status:"excliente", name:"Inter de Palmira", full:"Inter de Palmira", arr:0, league:"Segunda",
+    potential:7000, note:"Club del Valle del Cauca. Ex-cliente." },
+  { key:"atleticofc", status:"excliente", name:"Atletico FC", full:"Atletico FC", arr:0, league:"—",
+    potential:7000, note:"Ex-cliente. Categoría y estado por verificar." },
+  { key:"bocajuniors", status:"excliente", name:"Boca Juniors de Cali", full:"Boca Juniors de Cali", arr:0, league:"Segunda",
+    potential:6000, note:"Club vallecaucano de segunda categoría. Ex-cliente." },
+
+  // ── PROSPECTOS / CUENTAS SIN ARR ──
+  { key:"olimpico", status:"prospect", name:"Comité Olímpico", full:"Comité Olímpico Colombiano", arr:0, league:"Olímpico / Nacional",
+    potential:20000, note:"Pipeline activo: Wimu para rendimiento olímpico. Contacto iniciado. Cierre estimado Q3 FY27." },
+  { key:"ministerio", status:"prospect", name:"Ministerio del Deporte", full:"Ministerio del Deporte Colombiano", arr:0, league:"Gubernamental",
+    potential:0, note:"Cuenta activa en CRM ($0 ARR). Pipeline: Wimu institucional para programa nacional de rendimiento. NARR por definir." },
+  { key:"barranquillafc", status:"prospect", name:"Barranquilla FC", full:"Barranquilla FC", arr:0, league:"Primera B",
+    potential:12000, note:"Cuenta activa en CRM con $0 ARR. Club de Primera B — activar contrato básico Wyscout + Hudl." },
+  { key:"difutbol", status:"prospect", name:"DiFutbol", full:"DiFutbol", arr:0, league:"Federación",
+    potential:20000, note:"Prospecto nuevo. Organismo de desarrollo del fútbol colombiano. Por calificar y contactar." },
+  { key:"vallecaucana", status:"prospect", name:"Vallecaucana", full:"Vallecaucana", arr:0, league:"—",
+    potential:10000, note:"Prospecto nuevo. Posiblemente liga o asociación vallecaucana. Por calificar." },
 ];
 
 const QUARTERS = [
@@ -901,7 +945,7 @@ function stagePill(s) {
 }
 
 function stackLabel(key) {
-  const m = { wyscout:"Wyscout", hsc:"HSC Elite", hudl:"Hudl", replay:"Replay", statsbomb:"Statsbomb", adi:"ADI", focus:"Focus", wimu:"Wimu" };
+  const m = { wyscout:"Wyscout", hsc:"HSC/Coda", hudl:"Hudl", replay:"Replay", statsbomb:"Statsbomb", adi:"ADI", focus:"Focus", wimu:"Wimu", api:"API" };
   return m[key]||key;
 }
 
@@ -950,30 +994,101 @@ function filterPipeline(track, btn) {
 }
 
 // Render clubs
+// Returns PIPELINE items linked to a club key
+function getClubPipeline(clubKey) {
+  return PIPELINE.filter(p =>
+    p.clubKey === clubKey ||
+    (p.clubKeys && p.clubKeys.includes(clubKey))
+  );
+}
+
+// Pipeline section HTML for a club card
+function pipelineBlock(clubKey) {
+  const items = getClubPipeline(clubKey);
+  if (!items.length) return "";
+  const rows = items.map(p => {
+    const amt = p.narr > 0 ? `<span style="color:var(--green);font-weight:600">${fmt(p.narr)}</span>` : '<span style="color:var(--muted)">TBD</span>';
+    const sfBtn = p.sfLink
+      ? `<a href="${p.sfLink}" target="_blank" title="Abrir en Salesforce" style="display:inline-flex;align-items:center;gap:3px;color:var(--accent);font-size:10px;text-decoration:none;border:1px solid var(--accent);border-radius:3px;padding:1px 5px;margin-left:6px;">🔗 SF</a>`
+      : "";
+    const label = p.name.includes("—") ? p.name.split("—").slice(1).join("—").trim() : p.name;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:rgba(245,208,32,0.08);border-left:2px solid var(--accent);border-radius:0 4px 4px 0;margin:2px 0;gap:8px;">
+      <span style="font-size:11px;color:var(--text);flex:1">${label}${sfBtn}</span>
+      <span style="font-size:11px;white-space:nowrap">${amt} · <span style="color:var(--muted)">${p.stage}</span></span>
+    </div>`;
+  }).join("");
+  return `<div style="margin-top:10px;border-top:1px solid rgba(255,255,255,0.08);padding-top:8px;">
+    <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:0.6px;margin-bottom:5px;">⚡ PIPELINE ABIERTO</div>
+    ${rows}
+  </div>`;
+}
+
+let _clubsFilter = "all";
+
+function filterClubs(status, btn) {
+  _clubsFilter = status;
+  document.querySelectorAll("#clubs-filter .filter-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderClubs();
+}
+
 function renderClubs() {
   const container = document.getElementById("clubs-container");
-  container.innerHTML = CLUBS.map(c => {
-    const stackHtml = Object.entries(c.stack).map(([k,v]) =>
-      `<div class="stack-item ${stackClass(v)}">${stackLabel(k)}${stackSymbol(v)}</div>`
-    ).join("");
-    return `
-    <div class="club-card">
-      <div class="club-header">
+  const filtered = _clubsFilter === "all" ? CLUBS : CLUBS.filter(c => c.status === _clubsFilter);
+
+  container.innerHTML = filtered.map(c => {
+    const pipeline = pipelineBlock(c.key);
+
+    if (c.status === "active") {
+      // Full stack card for active customers
+      const stackHtml = Object.entries(c.stack).map(([k,v]) =>
+        `<div class="stack-item ${stackClass(v)}">${stackLabel(k)}${stackSymbol(v)}</div>`
+      ).join("");
+      return `<div class="club-card">
+        <div class="club-header">
+          <div>
+            <div class="club-name"><span class="priority-dot ${priorityClass(c.priority)}"></span>${c.name}</div>
+            <div class="club-fullname">${c.full||""}</div>
+          </div>
+          <div class="club-arr">
+            <div class="club-arr-val">${fmt(c.arr)}</div>
+            <div class="club-arr-label">ARR Actual</div>
+          </div>
+        </div>
+        <div class="stack-grid">${stackHtml}</div>
+        <div class="club-note">${c.note||""}</div>
+        <div class="club-narr-row">
+          <div class="club-narr-label">Potencial NARR total</div>
+          <div class="club-narr-value">${fmt(c.potential)}</div>
+        </div>
+        ${pipeline}
+      </div>`;
+    }
+
+    // Simplified card for ex-clientes and prospects
+    const statusBadge = c.status === "excliente"
+      ? `<span style="background:rgba(231,76,60,0.18);color:var(--red);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:0.4px;">EX-CLIENTE</span>`
+      : `<span style="background:rgba(155,89,182,0.18);color:var(--purple);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:0.4px;">PROSPECTO</span>`;
+    const leagueBadge = c.league ? `<span style="font-size:10px;color:var(--muted);margin-left:6px;">${c.league}</span>` : "";
+    const potentialStyle = c.potential >= 20000 ? "color:var(--green);font-weight:700" : c.potential >= 10000 ? "color:var(--accent);font-weight:600" : "color:var(--muted)";
+    const oppType = c.status === "excliente" ? "Oportunidad reactivación" : "Oportunidad nuevo logo";
+    return `<div class="club-card" style="border-color:${c.status==='excliente'?'rgba(231,76,60,0.25)':'rgba(155,89,182,0.25)'};opacity:0.92;">
+      <div class="club-header" style="margin-bottom:8px;">
         <div>
-          <div class="club-name"><span class="priority-dot ${priorityClass(c.priority)}"></span>${c.name}</div>
-          <div class="club-fullname">${c.full}</div>
+          <div class="club-name" style="display:flex;align-items:center;gap:6px;">${c.name} ${statusBadge} ${leagueBadge}</div>
+          <div class="club-fullname">${c.full||""}</div>
         </div>
         <div class="club-arr">
-          <div class="club-arr-val">${fmt(c.arr)}</div>
-          <div class="club-arr-label">ARR Actual</div>
+          <div class="club-arr-val" style="color:var(--muted)">$0</div>
+          <div class="club-arr-label">Sin ARR activo</div>
         </div>
       </div>
-      <div class="stack-grid">${stackHtml}</div>
-      <div class="club-note">${c.note}</div>
+      <div class="club-note" style="margin:0 0 10px">${c.note||""}</div>
       <div class="club-narr-row">
-        <div class="club-narr-label">Potencial NARR total</div>
-        <div class="club-narr-value">${fmt(c.potential)}</div>
+        <div class="club-narr-label">${oppType}</div>
+        <div class="club-narr-value" style="${potentialStyle}">${c.potential > 0 ? fmt(c.potential) : "TBD"}</div>
       </div>
+      ${pipeline}
     </div>`;
   }).join("");
 }
